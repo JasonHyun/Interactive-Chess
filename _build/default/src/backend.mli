@@ -59,8 +59,8 @@ val get_checkmate: move -> checkmate
 (*True iff the move puts the opponent in checkmate*)
 val get_time_since_start: move -> time
 (*Gets the time elapsed from game start to the given move, in seconds*)
-val get_time_since_last_move: move -> time 
-(*Gets the time elapsed from previous to the given move, in seconds*)
+val get_time_since_last_move: time 
+(*Gets the time elapsed since the last move in seconds*)
 val get_piece: coordinate -> piece_type
 (*Returns the type of piece at the given coordinate*)
 val get_piece_owner: coordinate -> player

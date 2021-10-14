@@ -170,5 +170,28 @@ let get_checkmate(move: move) = move.checkmate
 let get_valid(move: move) = move.valid
 
 let get_owner(move: move) = move.player
-(** Unimplementable functionality for near future specified by MLI*)
+
+let get_start (move: move) =
+  move.start_coord
+
+let get_end (move: move) =
+  move.end_coord
+
+let get_piece_type (move: move) =
+  move.piece.piece_type
+
+(** Unimplementable functionality for near future specified by MLI. Many of these fail because of no persistant state*)
 let get_legal_moves (coordinate: coordinate)= failwith ("Unimplemented")
+
+let get_time_left (player: player)= failwith("Unimplemented")
+let get_piece_owner (coordinate: coordinate) = failwith("Unimplemented")
+
+
+let make_move (start_coordinate: coordinate) (end_coordinate: coordinate) = 
+  failwith("Unimplemented")
+
+let get_piece (coordinate: coordinate) =
+  failwith("Unimplemented")
+let get_time_since_last_move = failwith("Unimplemented")
+let get_time_since_start = failwith("Unimplemented")
+let get_log = failwith("Unimplemented")
