@@ -1,0 +1,137 @@
+# dune build
+# OCAMLPARAM: unset
+# Workspace root: /home/neil/Chess
+$ /usr/bin/nproc > /tmp/dunee77414.output 2> /dev/null
+# Auto-detected concurrency: 16
+# disable binary cache
+$ /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune57bf9f.output
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dyn
+#  ; merlin = true
+#  ; for_host = None
+#  ; fdo_target_exe = None
+#  ; build_dir = "default"
+#  ; toplevel_path =
+#      Some External "/home/neil/.opam/cs3110-2021fa/lib/toplevel"
+#  ; ocaml_bin = External "/home/neil/.opam/cs3110-2021fa/bin"
+#  ; ocaml = Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocaml"
+#  ; ocamlc = External "/home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocamldep.opt"
+#  ; ocamlmklib =
+#      Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
+#  ; env =
+#      map
+#        { "DUNE_OCAML_HARDCODED" : "/home/neil/.opam/cs3110-2021fa/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/home/neil/.opam/cs3110-2021fa/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" : "/home/neil/Chess"
+#        ; "INSIDE_DUNE" : "/home/neil/Chess/_build/default"
+#        ; "OCAMLFIND_IGNORE_DUPS_IN" :
+#            "/home/neil/Chess/_build/install/default/lib"
+#        ; "OCAMLPATH" : "/home/neil/Chess/_build/install/default/lib"
+#        ; "OCAMLTOP_INCLUDE_PATH" :
+#            "/home/neil/Chess/_build/install/default/lib/toplevel"
+#        ; "OCAML_COLOR" : "always"
+#        ; "OPAMCOLOR" : "always"
+#        }
+#  ; findlib_path = [ External "/home/neil/.opam/cs3110-2021fa/lib" ]
+#  ; arch_sixtyfour = true
+#  ; natdynlink_supported = true
+#  ; supports_shared_libraries = true
+#  ; ocaml_config =
+#      { version = "4.12.0"
+#      ; standard_library_default = "/home/neil/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library = "/home/neil/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
+#      ; ccomp_type = "cc"
+#      ; c_compiler = "gcc"
+#      ; ocamlc_cflags = [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-fPIC" ]
+#      ; ocamlc_cppflags = [ "-D_FILE_OFFSET_BITS=64"; "-D_REENTRANT" ]
+#      ; ocamlopt_cflags =
+#          [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-fPIC" ]
+#      ; ocamlopt_cppflags = [ "-D_FILE_OFFSET_BITS=64"; "-D_REENTRANT" ]
+#      ; bytecomp_c_compiler =
+#          [ "gcc"
+#          ; "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-fPIC"
+#          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-D_REENTRANT"
+#          ]
+#      ; bytecomp_c_libraries = [ "-lm"; "-ldl"; "-lpthread" ]
+#      ; native_c_compiler =
+#          [ "gcc"
+#          ; "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-fPIC"
+#          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-D_REENTRANT"
+#          ]
+#      ; native_c_libraries = [ "-lm"; "-ldl" ]
+#      ; cc_profile = []
+#      ; architecture = "amd64"
+#      ; model = "default"
+#      ; int_size = 63
+#      ; word_size = 64
+#      ; system = "linux"
+#      ; asm = [ "as" ]
+#      ; asm_cfi_supported = true
+#      ; with_frame_pointers = false
+#      ; ext_exe = ""
+#      ; ext_obj = ".o"
+#      ; ext_asm = ".s"
+#      ; ext_lib = ".a"
+#      ; ext_dll = ".so"
+#      ; os_type = "Unix"
+#      ; default_executable_name = "a.out"
+#      ; systhread_supported = true
+#      ; host = "x86_64-pc-linux-gnu"
+#      ; target = "x86_64-pc-linux-gnu"
+#      ; profiling = false
+#      ; flambda = false
+#      ; spacetime = false
+#      ; safe_string = true
+#      ; exec_magic_number = "Caml1999X029"
+#      ; cmi_magic_number = "Caml1999I029"
+#      ; cmo_magic_number = "Caml1999O029"
+#      ; cma_magic_number = "Caml1999A029"
+#      ; cmx_magic_number = "Caml1999Y029"
+#      ; cmxa_magic_number = "Caml1999Z029"
+#      ; ast_impl_magic_number = "Caml1999M029"
+#      ; ast_intf_magic_number = "Caml1999N029"
+#      ; cmxs_magic_number = "Caml1999D029"
+#      ; cmt_magic_number = "Caml1999T029"
+#      ; natdynlink_supported = true
+#      ; supports_shared_libraries = true
+#      ; windows_unicode = false
+#      }
+#  }
+$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I src/.backend.eobjs/byte -I src/.backend.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -o src/.backend.eobjs/native/dune__exe__Backend.cmx -c -impl src/backend.ml)
+> File "src/backend.ml", line 1:
+> Error: The implementation src/backend.ml
+>        does not match the interface src/.backend.eobjs/byte/dune__exe__Backend.cmi:
+>        The value `get_time_left' is required but not provided
+>        File "src/backend.mli", line 68, characters 0-33: Expected declaration
+>        The value `get_piece_owner' is required but not provided
+>        File "src/backend.mli", line 66, characters 0-41: Expected declaration
+>        The value `get_piece' is required but not provided
+>        File "src/backend.mli", line 64, characters 0-39: Expected declaration
+>        The value `get_time_since_last_move' is required but not provided
+>        File "src/backend.mli", line 62, characters 0-42: Expected declaration
+>        The value `get_time_since_start' is required but not provided
+>        File "src/backend.mli", line 60, characters 0-38: Expected declaration
+>        The value `get_piece_type' is required but not provided
+>        File "src/backend.mli", line 50, characters 0-38: Expected declaration
+>        The value `get_end' is required but not provided
+>        File "src/backend.mli", line 48, characters 0-31: Expected declaration
+>        The value `get_start' is required but not provided
+>        File "src/backend.mli", line 46, characters 0-33: Expected declaration
+>        The value `get_log' is required but not provided
+>        File "src/backend.mli", line 44, characters 0-22: Expected declaration
+>        The value `make_move' is required but not provided
+>        File "src/backend.mli", line 41, characters 0-47: Expected declaration
+[2]

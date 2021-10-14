@@ -19,12 +19,12 @@ type coordinate = {
 (** The type of coordinate identifiers*)
 type piece_type = char
 (** The type representing piece name
- Rook: R
- Bishop: B
- Pawn: P
- Knight: N
- King: K
- Queen: Q
+ Rook: 'R'
+ Bishop: 'B'
+ Pawn: 'P'
+ Knight: 'N'
+ King: 'K'
+ Queen: 'Q'
 *) 
 
 type time = int
