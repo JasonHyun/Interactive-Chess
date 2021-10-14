@@ -1,5 +1,5 @@
 type player = White | Black
-
+(*Player identifier, color based on regular chess considerations*)
 type column = char
 (** The type of column identifiers, a capital letter A-G *)
 type row = int
@@ -22,7 +22,9 @@ type piece = {
   player: player;
   piece_type: piece_type;
 }
+(* Defines a piece on the board, by showing the player who controls it and the piece's type*)
 type space = Piece of piece | Empty
+(*Defines a space on the board, either a piece or an empty space*)
 type time = int
 (** The type representing time, an int in milliseconds.*)
 let player_time_in_mins= 15
@@ -55,6 +57,7 @@ type game = {
   white_time: time;
   black_time: time;
 }
+(** Defines the total state of a game, including board state and time left for every player*)
 
 let make_pieces(player: player)(piece_types: piece_type list) = 
   let rec make_rec (player:player) (piece_types: piece_type list) (pieces: space list) =
@@ -65,8 +68,8 @@ let make_pieces(player: player)(piece_types: piece_type list) =
 (** Makes pieces of given types and player. Kinda ugly so refactor should be done.*)
 
 let empty_row =
-  [Empty;Empty;Empty;Empty;Empty;Empty;Empty;Empty; ]
-  
+  [Empty; Empty; Empty; Empty; Empty; Empty; Empty; Empty]
+(**Makes a row of empty places for map initialization*)
 let make_pawns (player: player)=
   make_pieces player ['P';'P';'P';'P';'P';'P';'P';'P']
 (**Makes a row of pawns under the control of the given player*)
@@ -78,17 +81,22 @@ let init_board =
   empty_row; empty_row; make_pawns White; make_rest White; ]
 (**Initializes the state of a board at the start of the game of chess*)
 
-let get_space (space: space) =
+let get_piece_from_space (space: space) =
   match space with 
   | Empty -> ' '
-  | Piece piece -> piece.piece_type
-    
+  | Piece piece -> 
+    match piece.player with 
+      | White -> piece.piece_type 
+      | Black -> Char.lowercase_ascii piece.piece_type
+(**Gives a printable char representation of a piece from the given space. 
+Uppercase is a white piece, lowercase for a black piece*)
 let log_row (row: space list)=
-  let chars = List.map get_space row in 
+  let chars = List.map get_piece_from_space row in 
   print_string (String.concat " " (List.map Char.escaped chars))
+(**Logs the given row of the board to the printer.*)
 let log_board (board: board) = 
   List.iter log_row board
-
+(**Logs the board to the printer.*)
 let init_game = 
   {
     board = init_board;
@@ -153,6 +161,7 @@ let check_piece_rules (start_coord: coordinate) (end_coord: coordinate) (board: 
   | 'R' -> check_rook start_coord end_coord
   | 'Q' -> check_queen start_coord end_coord
   | _ -> failwith ("Board invariant violated: non-valid piece-type "^ Char.escaped piece_type)
+(**Using the rules for the given piece, returns true iff the given move is legal. Ignores if move puts you in check*)
 let check_move (start_coord: coordinate) (end_coord: coordinate) (board: board)= 
   if check_coords_in_bounds [start_coord; end_coord] = false then failwith ("Invalid coordinate") else 
     let piece = get_space_at_coord start_coord board in
@@ -165,33 +174,41 @@ for the given piece, ignores putting oneself into check considerations *)
 
 
 let get_check(move: move) = move.check
+(*True iff the move puts the opponent in check*)
 let get_checkmate(move: move) = move.checkmate
-
+(*True iff the move puts the opponent in checkmate*)
 let get_valid(move: move) = move.valid
-
+(*True iff the move is valid*)
 let get_owner(move: move) = move.player
-
+(*Gets the owner of the piece used in the given move*)
 let get_start (move: move) =
   move.start_coord
-
+(*Gets the starting coordinate of the given move*)
 let get_end (move: move) =
   move.end_coord
-
+(*Gets the end coordinate of the given move*)
 let get_piece_type (move: move) =
   move.piece.piece_type
+(*Gets the piece used in the given move*)
 
 (** Unimplementable functionality for near future specified by MLI. Many of these fail because of no persistant state*)
 let get_legal_moves (coordinate: coordinate)= failwith ("Unimplemented")
-
+(*Returns all the positions that the piece at the coordinate can legally move to.*)
 let get_time_left (player: player)= failwith("Unimplemented")
+(*Returns the amount of time that the given player has remaining*)
 let get_piece_owner (coordinate: coordinate) = failwith("Unimplemented")
-
+(*Returns the owner of the piece at the given coordinate*)
 
 let make_move (start_coordinate: coordinate) (end_coordinate: coordinate) = 
   failwith("Unimplemented")
+(*[start_coordinate end_coordinate] takes the given input, creates object of type [move] 
+  with given start coordinate, end coordinate*)
 
-let get_piece (coordinate: coordinate) =
-  failwith("Unimplemented")
+let get_piece (coordinate: coordinate) = failwith("Unimplemented")
+(*Returns the type of piece at the given coordinate*)
 let get_time_since_last_move = failwith("Unimplemented")
+(*Gets the time elapsed since the last move in seconds*)
 let get_time_since_start = failwith("Unimplemented")
+(*Gets the time elapsed from game start to the given move, in seconds*)
 let get_log = failwith("Unimplemented")
+(*Returns a list of all of the moves taken in chronological ordering*)
