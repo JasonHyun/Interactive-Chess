@@ -1,10 +1,10 @@
-# dune build
+# dune exec test/main.exe
 # OCAMLPARAM: unset
-# Workspace root: /home/neil/Chess
-$ /usr/bin/nproc > /tmp/dunedd74ec.output 2> /dev/null
-# Auto-detected concurrency: 16
+# Workspace root: /home/vk262/3110/3110chess
+$ /usr/bin/nproc > /tmp/dune46499c.output 2> /dev/null
+# Auto-detected concurrency: 4
 # disable binary cache
-$ /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune36baa1.output
+$ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune381343.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -14,36 +14,37 @@ $ /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune36baa1.output
 #  ; fdo_target_exe = None
 #  ; build_dir = "default"
 #  ; toplevel_path =
-#      Some External "/home/neil/.opam/cs3110-2021fa/lib/toplevel"
-#  ; ocaml_bin = External "/home/neil/.opam/cs3110-2021fa/bin"
-#  ; ocaml = Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocaml"
-#  ; ocamlc = External "/home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt"
-#  ; ocamlopt = Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt"
-#  ; ocamldep = Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocamldep.opt"
+#      Some External "/home/vk262/.opam/cs3110-2021fa/lib/toplevel"
+#  ; ocaml_bin = External "/home/vk262/.opam/cs3110-2021fa/bin"
+#  ; ocaml = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocaml"
+#  ; ocamlc = External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamldep.opt"
 #  ; ocamlmklib =
-#      Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
+#      Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
 #  ; env =
 #      map
-#        { "DUNE_OCAML_HARDCODED" : "/home/neil/.opam/cs3110-2021fa/lib"
-#        ; "DUNE_OCAML_STDLIB" : "/home/neil/.opam/cs3110-2021fa/lib/ocaml"
-#        ; "DUNE_SOURCEROOT" : "/home/neil/Chess"
-#        ; "INSIDE_DUNE" : "/home/neil/Chess/_build/default"
+#        { "DUNE_OCAML_HARDCODED" : "/home/vk262/.opam/cs3110-2021fa/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" : "/home/vk262/3110/3110chess"
+#        ; "INSIDE_DUNE" : "/home/vk262/3110/3110chess/_build/default"
 #        ; "OCAMLFIND_IGNORE_DUPS_IN" :
-#            "/home/neil/Chess/_build/install/default/lib"
-#        ; "OCAMLPATH" : "/home/neil/Chess/_build/install/default/lib"
+#            "/home/vk262/3110/3110chess/_build/install/default/lib"
+#        ; "OCAMLPATH" :
+#            "/home/vk262/3110/3110chess/_build/install/default/lib"
 #        ; "OCAMLTOP_INCLUDE_PATH" :
-#            "/home/neil/Chess/_build/install/default/lib/toplevel"
+#            "/home/vk262/3110/3110chess/_build/install/default/lib/toplevel"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
-#  ; findlib_path = [ External "/home/neil/.opam/cs3110-2021fa/lib" ]
+#  ; findlib_path = [ External "/home/vk262/.opam/cs3110-2021fa/lib" ]
 #  ; arch_sixtyfour = true
 #  ; natdynlink_supported = true
 #  ; supports_shared_libraries = true
 #  ; ocaml_config =
 #      { version = "4.12.0"
-#      ; standard_library_default = "/home/neil/.opam/cs3110-2021fa/lib/ocaml"
-#      ; standard_library = "/home/neil/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library_default = "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library = "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
 #      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
 #      ; ccomp_type = "cc"
 #      ; c_compiler = "gcc"
@@ -110,5 +111,3 @@ $ /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune36baa1.output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I src/.backend.eobjs/byte -I src/.backend.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -o src/.backend.eobjs/native/dune__exe__Backend.cmx -c -impl src/backend.ml)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -o src/backend.exe src/.backend.eobjs/native/dune__exe__Backend.cmx)

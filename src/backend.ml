@@ -107,7 +107,7 @@ let init_game =
 
 let check_coord_in_bounds (coordinate: coordinate)= 
     let columnCheck = List.mem coordinate.column ['A';'B';'C';'D';'E';'F';'G';'H'] in
-    let rowCheck = if coordinate.row >= 1 && coordinate.row <=8 then true else false in 
+    let rowCheck = (coordinate.row >= 1 && coordinate.row <= 8) in 
     columnCheck && rowCheck
 (**Checks that the given coordinate obeys the rules for coordinates *)
 
@@ -132,17 +132,37 @@ let get_space_at_coord (coordinate: coordinate) (board: board) =
     failwith ("Unusable coordinate supplied to get_space_at_coord")
 (** Returns the space on the board with the given coordinates*)
 
-let check_pawn (start_coord: coordinate) (end_coord: coordinate) = false
+let move_dist (start_coord : coordinate) (end_coord : coordinate) =
+  ( Int.abs
+      (col_to_index end_coord.column - col_to_index start_coord.column),
+    Int.abs (end_coord.row - start_coord.row) )
+(** Finds distance travelled from start to end locations recorded in magnitude *)
+
+let color_check (start_coord: coordinate) (board: board) = let tile = get_space_at_coord start_coord board in match tile with 
+| Piece p -> p.player
+| Empty -> failwith("No piece found at this coordinate")
+(** TODO returns piece color at a given coordinate, if empty needs behavior(potentially raise exception?) *)
+
+let check_pawn (start_coord: coordinate) (end_coord: coordinate) = let (dy,dx) = move_dist start_coord end_coord in (dx = 0 && (dy = 1 ))
 (*TODO checks using pawn rules to see if move is valid*)
-let check_knight (start_coord: coordinate) (end_coord: coordinate) = false
+let check_knight (start_coord : coordinate) (end_coord : coordinate) =
+  let dy, dx = move_dist start_coord end_coord in
+  dy + dx = 3 && Int.abs (dy - dx) = 1
 (*TODO checks using knight rules to see if move is valid*)
-let check_bishop (start_coord: coordinate) (end_coord: coordinate) = false
+let check_bishop (start_coord : coordinate) (end_coord : coordinate) =
+  let dy, dx = move_dist start_coord end_coord in
+  dy = dx && dy > 0
 (*TODO checks using bishop rules to see if move is valid*)
-let check_king (start_coord: coordinate) (end_coord: coordinate) = false
+let check_king (start_coord : coordinate) (end_coord : coordinate) =
+  let dy, dx = move_dist start_coord end_coord in
+  dy > 0 || dx > 0
 (*TODO checks using king rules to see if move is valid*)
-let check_rook (start_coord: coordinate) (end_coord: coordinate) = false
+let check_rook (start_coord: coordinate) (end_coord: coordinate) = 
+  let dy, dx = move_dist start_coord end_coord in
+  (dx = 0 && dy > 0) || (dy = 0 && dx > 0)
 (*TODO checks using rook rules to see if move is valid*)
-let check_queen (start_coord: coordinate) (end_coord: coordinate) = false
+let check_queen (start_coord: coordinate) (end_coord: coordinate) = 
+  check_bishop start_coord end_coord || check_rook start_coord end_coord
 (*TODO checks using queen rules to see if move is valid*)
 
   
