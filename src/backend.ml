@@ -170,8 +170,7 @@ let rec path_clear
     (current : board_coord)
     (finish : board_coord)
     (board : board)
-    (incr_c : int)
-    (incr_r : int) =
+    ((incr_c, incr_r) : index * index) =
   if current = finish then
     let first = get_space_at_coord finish board in
     let second = get_space_at_coord current board in
@@ -181,14 +180,20 @@ let rec path_clear
   else
     space_check current board = ' '
     && path_clear
-         { column = current.column + incr_c; row = current.row + incr_r }
-         finish board incr_c incr_r
+         {
+           column = current.column + incr_c;
+           row = current.row + incr_r;
+         }
+         finish board (incr_c, incr_r)
 (** checks for a linear path from start to end that no other pieces are
     in the way on that path *)
 
-let incr_deriv (start_coord: board_coord) (end_coord: board_coord) =
-  let dx = end_coord.column-start_coord.column in let dy = end_coord.row-start_coord.row in 
-  (if dx = 0 then 0 else dx/Int.abs(dx), if dy = 0 then 0 else dy/Int.abs(dy))
+let incr_deriv (start_coord : board_coord) (end_coord : board_coord) =
+  let dx = end_coord.column - start_coord.column in
+  let dy = end_coord.row - start_coord.row in
+  ( (if dx = 0 then 0 else dx / Int.abs dx),
+    if dy = 0 then 0 else dy / Int.abs dy )
+(* Finds linear increments to get from start to endpoint *)
 
 
 let check_pawn (start_coord: board_coord) (end_coord: board_coord) (board : board) = let (dy,dx) = move_dist start_coord end_coord in (dx = 0 && (dy = 1 ))
@@ -200,25 +205,36 @@ let check_knight
   let dy, dx = move_dist start_coord end_coord in
   dy + dx = 3
   && Int.abs (dy - dx) = 1
-  && path_clear end_coord end_coord board dx dy
+  && path_clear end_coord end_coord board (dx, dy)
 (*TODO checks using knight rules to see if move is valid*)
-let check_bishop (start_coord : board_coord) (end_coord : board_coord) (board : board) =
+let check_bishop
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
   let dx, dy = move_dist start_coord end_coord in
-  dy = dx && dy > 0 && path_clear start_coord end_coord board 1 2
+  dy = dx && dy > 0
+  && path_clear start_coord end_coord board
+       (incr_deriv start_coord end_coord)
 (*TODO checks using bishop rules to see if move is valid*)
 let check_king
     (start_coord : board_coord)
     (end_coord : board_coord)
     (board : board) =
   let dy, dx = move_dist start_coord end_coord in
-  (dy > 0 || dx > 0) && space_check end_coord board = ' '
+  (dy > 0 || dx > 0) && path_clear end_coord end_coord board (dx, dy)
 (*TODO checks using king rules to see if move is valid*)
-let check_rook (start_coord: board_coord) (end_coord: board_coord) (board : board) = 
+let check_rook
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
   let dy, dx = move_dist start_coord end_coord in
-  (dx = 0 && dy > 0) || (dy = 0 && dx > 0)
+  (dx = 0 && dy > 0)
+  || (dy = 0 && dx > 0)
+     && path_clear start_coord end_coord board
+          (incr_deriv start_coord end_coord)
 (*TODO checks using rook rules to see if move is valid*)
 let check_queen (start_coord: board_coord) (end_coord: board_coord) (board : board) = 
-  check_bishop start_coord end_coord || check_rook start_coord end_coord
+  check_bishop start_coord end_coord board || check_rook start_coord end_coord board
 (*TODO checks using queen rules to see if move is valid*)
 
   
@@ -228,15 +244,24 @@ let check_coords_in_bounds (coordinate_list: board_coord list)=
     List.for_all(is_true) bool_list
 (**Checks that all coordinates in the given list follow the invariants.  *)
 
-let check_piece_rules (start_coord: board_coord) (end_coord: board_coord) (board: board) (piece_type: piece_type)= 
-  match piece_type with
-  | 'P' -> check_pawn start_coord end_coord
-  | 'N' -> check_knight start_coord end_coord
-  | 'B' -> check_bishop start_coord end_coord
-  | 'K' -> check_king start_coord end_coord
-  | 'R' -> check_rook start_coord end_coord
-  | 'Q' -> check_queen start_coord end_coord
-  | _ -> failwith ("Board invariant violated: non-valid piece-type "^ Char.escaped piece_type)
+let check_piece_rules
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board)
+    (piece_type : piece_type) =
+  if start_coord = end_coord then false
+  else
+    match piece_type with
+    | 'P' -> check_pawn start_coord end_coord board
+    | 'N' -> check_knight start_coord end_coord board
+    | 'B' -> check_bishop start_coord end_coord board
+    | 'K' -> check_king start_coord end_coord board
+    | 'R' -> check_rook start_coord end_coord board
+    | 'Q' -> check_queen start_coord end_coord board
+    | _ ->
+        failwith
+          ("Board invariant violated: non-valid piece-type "
+         ^ Char.escaped piece_type)
 (**Using the rules for the given piece, returns true iff the given move is legal. Ignores if move puts you in check*)
 let check_move (start_coord: board_coord) (end_coord: board_coord) (board: board)= 
   if check_coords_in_bounds [start_coord; end_coord] = false then failwith ("Invalid coordinate") else 
