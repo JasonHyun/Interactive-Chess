@@ -196,7 +196,17 @@ let incr_deriv (start_coord : board_coord) (end_coord : board_coord) =
 (* Finds linear increments to get from start to endpoint *)
 
 
-let check_pawn (start_coord: board_coord) (end_coord: board_coord) (board : board) = let (dy,dx) = move_dist start_coord end_coord in (dx = 0 && (dy = 1 ))
+let check_pawn
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
+  let dy, dx = move_dist start_coord end_coord in
+  dx = 0
+  && (dy = 1
+     || dy = 2
+        && ((space_check start_coord board = 'p' && start_coord.row = 6)
+           || space_check start_coord board = 'P'
+              && start_coord.row = 1))
 (*TODO checks using pawn rules to see if move is valid*)
 let check_knight
     (start_coord : board_coord)
