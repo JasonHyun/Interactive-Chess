@@ -323,3 +323,5 @@ let get_time_since_start = failwith("Unimplemented")
 (*Gets the time elapsed from game start to the given move, in seconds*)
 let get_log = failwith("Unimplemented")
 (*Returns a list of all of the moves taken in chronological ordering*)
+
+let demo start_coord end_coord = check_move start_coord end_coord init_board

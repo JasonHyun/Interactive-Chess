@@ -37,6 +37,11 @@ type checkmate = bool
 (** True iff the move places the opposing player in checkmate*)
 
 (*Below are the methods I suspect will be most useful to the front end team*)
+type board_coord = {
+  column:int;
+  row:int;
+}
+val demo : board_coord -> board_coord -> checkmate
 
 val make_move: coordinate -> coordinate -> move
 (*[start_coordinate end_coordinate] takes the given input, creates object of type [move] 

@@ -1,0 +1,2 @@
+(** @canonical Chess.Backend *)
+module Backend = Chess__Backend
