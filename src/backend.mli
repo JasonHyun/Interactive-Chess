@@ -44,6 +44,13 @@ type board_coord = {
   row:int;
 }
 val demo : board_coord -> board_coord -> checkmate
+type piece = {
+  player: player;
+  piece_type: piece_type;
+}
+type space = Piece of piece | Empty
+type board = space list list
+val log_board : board -> unit
 
 (* val make_move: coordinate -> coordinate -> move *)
 (*[start_coordinate end_coordinate] takes the given input, creates object of type [move] 

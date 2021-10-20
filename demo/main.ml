@@ -19,7 +19,6 @@ let main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
     "\n\nInitializing MS1 backend demo.\n";
   print_endline "First showing representation of initial board layout";
-
   print_endline
     "now showing piece checks for several valid/invalid moves";
   (* let () = log_board init_board in *)
@@ -28,11 +27,11 @@ let main () =
       ( { column = 1; row = 0 },
         { column = 2; row = 2 },
         "demo on moving knight from b1 to c3 - should work\n" );
-      ( { column = 3; row = 1 },
-        { column = 3; row = 3 },
+      ( { column = 0; row = 1 },
+        { column = 0; row = 2 },
         "demo on moving pawn from d2 to d4 - should work\n" );
-      ( { column = 1; row = 0 },
-        { column = 2; row = 2 },
+      ( { column = 0; row = 0 },
+        { column = 0; row = 2 },
         "demo on moving rook from a1 to a5 - should fail\n" );
       ( { column = 2; row = 7 },
         { column = 2; row = 2 },

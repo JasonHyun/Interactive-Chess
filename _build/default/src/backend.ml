@@ -200,7 +200,7 @@ let check_pawn
     (start_coord : board_coord)
     (end_coord : board_coord)
     (board : board) =
-  let dy, dx = move_dist start_coord end_coord in
+  let dx, dy = move_dist start_coord end_coord in
   dx = 0
   && (dy = 1
      || dy = 2
@@ -212,7 +212,7 @@ let check_knight
     (start_coord : board_coord)
     (end_coord : board_coord)
     (board : board) =
-  let dy, dx = move_dist start_coord end_coord in
+  let dx, dy = move_dist start_coord end_coord in
   dy + dx = 3
   && Int.abs (dy - dx) = 1
   && path_clear end_coord end_coord board (dx, dy)
@@ -230,16 +230,16 @@ let check_king
     (start_coord : board_coord)
     (end_coord : board_coord)
     (board : board) =
-  let dy, dx = move_dist start_coord end_coord in
+  let dx, dy = move_dist start_coord end_coord in
   (dy > 0 || dx > 0) && path_clear end_coord end_coord board (dx, dy)
 (*TODO checks using king rules to see if move is valid*)
 let check_rook
     (start_coord : board_coord)
     (end_coord : board_coord)
     (board : board) =
-  let dy, dx = move_dist start_coord end_coord in
-  (dx = 0 && dy > 0)
-  || (dy = 0 && dx > 0)
+  let dx, dy = move_dist start_coord end_coord in
+  ((dx = 0 && dy > 0)
+  || (dy = 0 && dx > 0))
      && path_clear start_coord end_coord board
           (incr_deriv start_coord end_coord)
 (*TODO checks using rook rules to see if move is valid*)
