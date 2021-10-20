@@ -1,10 +1,10 @@
 # dune exec dispDemo/dispDemo.exe
 # OCAMLPARAM: unset
 # Workspace root: /home/acai/3110/3110chess
-$ /usr/bin/nproc > /tmp/dunea9382f.output 2> /dev/null
+$ /usr/bin/nproc > /tmp/dune15e753.output 2> /dev/null
 # Auto-detected concurrency: 12
 # disable binary cache
-$ /home/acai/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune9b3f72.output
+$ /home/acai/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune4fa39e.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"

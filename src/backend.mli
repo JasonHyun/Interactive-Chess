@@ -38,16 +38,25 @@ type checkmate = bool
 
 (*Below are the methods I suspect will be most useful to the front end team*)
 
+(* added for the purpose of demoing, not for final product*)
 type board_coord = {
   column:int;
   row:int;
 }
 val demo : board_coord -> board_coord -> checkmate
+val demo_board : string list
+type piece = {
+  player: player;
+  piece_type: piece_type;
+}
+type space = Piece of piece | Empty
+type board = space list list
+val log_board : board -> string list 
 
-val make_move: coordinate -> coordinate -> move
+(* val make_move: coordinate -> coordinate -> move *)
 (*[start_coordinate end_coordinate] takes the given input, creates object of type [move] 
   with given start coordinate, end coordinate*)
-val get_log: move list 
+(* val get_log: move list  *)
 (*Returns a list of all of the moves taken in chronological ordering*)
 val get_start: move -> coordinate
 (*Gets the starting coordinate of the given move*)
@@ -63,17 +72,17 @@ val get_check: move -> check
 (*True iff the move puts the opponent in check*)
 val get_checkmate: move -> checkmate
 (*True iff the move puts the opponent in checkmate*)
-val get_time_since_start: move -> time
+(* val get_time_since_start: move -> time *)
 (*Gets the time elapsed from game start to the given move, in seconds*)
-val get_time_since_last_move: time 
+(* val get_time_since_last_move: time  *)
 (*Gets the time elapsed since the last move in seconds*)
-val get_piece: coordinate -> piece_type
+(* val get_piece: coordinate -> piece_type *)
 (*Returns the type of piece at the given coordinate*)
-val get_piece_owner: coordinate -> player
+(* val get_piece_owner: coordinate -> player *)
 (*Returns the owner of the piece at the given coordinate*)
-val get_time_left: player -> time
+(* val get_time_left: player -> time
 (*Returns the amount of time that the given player has remaining*)
-val get_legal_moves: coordinate -> coordinate list
+val get_legal_moves: coordinate -> coordinate list *)
 (*Returns all the positions that the piece at the coordinate can legally move to.*)
 
 

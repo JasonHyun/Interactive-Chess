@@ -12,6 +12,11 @@
   (wrapped
    (main_module_name Chess)
    (modules
+    ((name Authors)
+     (obj_name chess__Authors)
+     (visibility public)
+     (impl)
+     (intf))
     ((name Backend)
      (obj_name chess__Backend)
      (visibility public)

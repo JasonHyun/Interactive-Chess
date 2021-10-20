@@ -17,13 +17,27 @@ let rec democheck = function
 
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
-    "\n\nWelcome to the 3110 Text Adventure Game engine.\n";
+    "\n\nInitializing MS1 backend demo.\n";
+  print_endline "First showing representation of initial board layout";
+  print_endline
+    "now showing piece checks for several valid/invalid moves";
+
+  List.iter print_endline demo_board;
   (* let () = log_board init_board in *)
   let piecetests =
     [
       ( { column = 1; row = 0 },
         { column = 2; row = 2 },
-        "demo on moving knight from b1 to c3\n" );
+        "demo on moving knight from b1 to c3 - should work\n" );
+      ( { column = 0; row = 1 },
+        { column = 0; row = 2 },
+        "demo on moving pawn from d2 to d4 - should work\n" );
+      ( { column = 0; row = 0 },
+        { column = 0; row = 2 },
+        "demo on moving rook from a1 to a5 - should fail\n" );
+      ( { column = 2; row = 7 },
+        { column = 2; row = 2 },
+        "demo on moving bishop from c8 to c3 - should fail\n" );
     ]
   in
   democheck piecetests

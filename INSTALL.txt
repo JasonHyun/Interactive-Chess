@@ -1,0 +1,17 @@
+To run backend demo, use "OCAMLRUNPARAM=b dune exec demo/main.exe"
+To run frontend demo, use "dune exec dispDemo/dispDemo.exe"
+
+Neccesary installs:
+  Frontend (for Windows only; if using Mac, use Homebrew instead): 
+    need to install xserver for WSL to use graphics library
+    
+    sudo apt-get install pkg-config
+    sudo apt-get install libpng-dev
+    sudo apt-get install libjpeg-dev
+    sudo apt-get install libtiff-dev
+    sudo apt-get install libxpm-dev
+    sudo apt-get install libfreetype6-dev
+    sudo apt-get install libgif-dev
+    
+    opam install graphics
+    opam install camlimages
