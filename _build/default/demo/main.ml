@@ -21,6 +21,8 @@ let main () =
   print_endline "First showing representation of initial board layout";
   print_endline
     "now showing piece checks for several valid/invalid moves";
+
+  List.iter print_endline demo_board;
   (* let () = log_board init_board in *)
   let piecetests =
     [

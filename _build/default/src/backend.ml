@@ -107,10 +107,10 @@ let get_piece_from_space (space: space) =
 Uppercase is a white piece, lowercase for a black piece*)
 let log_row (row: space list)=
   let chars = List.map get_piece_from_space row in 
-  print_string (String.concat " " (List.map Char.escaped chars))
+  String.concat " " (List.map Char.escaped chars)
 (**Logs the given row of the board to the printer.*)
 let log_board (board: board) = 
-  List.iter log_row board
+  List.map log_row board
 (**Logs the board to the printer.*)
 let init_game = 
   {
@@ -300,6 +300,10 @@ let get_end (move: move) =
 (*Gets the end coordinate of the given move*)
 let get_piece_type (move: move) =
   move.piece.piece_type
+
+  let demo_board = log_board init_board
+let demo start_coord end_coord = check_move start_coord end_coord init_board
+
 (*Gets the piece used in the given move*)
 
 (** Unimplementable functionality for near future specified by MLI. Many of these fail because of no persistant state*)
@@ -324,4 +328,3 @@ let get_time_since_start = failwith("Unimplemented")
 let get_log = failwith("Unimplemented") *)
 (*Returns a list of all of the moves taken in chronological ordering*)
 
-let demo start_coord end_coord = check_move start_coord end_coord init_board
