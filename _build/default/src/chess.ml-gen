@@ -1,2 +1,6 @@
+(** @canonical Chess.Authors *)
+module Authors = Chess__Authors
+
+
 (** @canonical Chess.Backend *)
 module Backend = Chess__Backend

@@ -1,3 +1,0 @@
-(executable
- (name backend_test)
- (libraries Backend ounit2))

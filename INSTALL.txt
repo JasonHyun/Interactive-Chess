@@ -1,0 +1,4 @@
+To run backend demo, use "OCAMLRUNPARAM=b dune exec demo/main.exe"
+To run frontend demo, use "please put here frontend team"
+Neccesary installs:
+>Please list below

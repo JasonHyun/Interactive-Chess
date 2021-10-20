@@ -1,5 +1,7 @@
 lib: [
   "_build/install/default/lib/Chess/META"
+  "_build/install/default/lib/Chess/authors.ml"
+  "_build/install/default/lib/Chess/authors.mli"
   "_build/install/default/lib/Chess/backend.ml"
   "_build/install/default/lib/Chess/backend.mli"
   "_build/install/default/lib/Chess/chess.a"
@@ -9,6 +11,10 @@ lib: [
   "_build/install/default/lib/Chess/chess.cmx"
   "_build/install/default/lib/Chess/chess.cmxa"
   "_build/install/default/lib/Chess/chess.ml"
+  "_build/install/default/lib/Chess/chess__Authors.cmi"
+  "_build/install/default/lib/Chess/chess__Authors.cmt"
+  "_build/install/default/lib/Chess/chess__Authors.cmti"
+  "_build/install/default/lib/Chess/chess__Authors.cmx"
   "_build/install/default/lib/Chess/chess__Backend.cmi"
   "_build/install/default/lib/Chess/chess__Backend.cmt"
   "_build/install/default/lib/Chess/chess__Backend.cmti"
