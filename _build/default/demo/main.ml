@@ -17,7 +17,7 @@ let rec democheck = function
 
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
-    "\n\nWelcome to the 3110 Text Adventure Game engine.\n";
+    "\n\nInitializing MS1 backend demo.\n";
   (* let () = log_board init_board in *)
   let piecetests =
     [

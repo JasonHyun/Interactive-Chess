@@ -122,7 +122,7 @@ let init_game =
   as well *)
 
 
-let col_to_index(column: column) =
+let col_to_index (column: column) =
   match column with 
   | 'A' -> 0
   | 'B' -> 1 
@@ -207,7 +207,7 @@ let check_pawn
         && ((space_check start_coord board = 'p' && start_coord.row = 6)
            || space_check start_coord board = 'P'
               && start_coord.row = 1))
-(*TODO checks using pawn rules to see if move is valid*)
+(*checks using pawn rules to see if move is valid TODO: Pawn attacks en pass*)
 let check_knight
     (start_coord : board_coord)
     (end_coord : board_coord)
@@ -284,11 +284,11 @@ let check_move (start_coord: board_coord) (end_coord: board_coord) (board: board
 for the given piece, ignores putting oneself into check considerations *)
 
 
-let get_check(move: move) = move.check
+let get_check (move: move) = move.check
 (*True iff the move puts the opponent in check*)
-let get_checkmate(move: move) = move.checkmate
+let get_checkmate (move: move) = move.checkmate
 (*True iff the move puts the opponent in checkmate*)
-let get_valid(move: move) = move.valid
+let get_valid (move: move) = move.valid
 (*True iff the move is valid*)
 let get_owner(move: move) = move.player
 (*Gets the owner of the piece used in the given move*)
@@ -303,7 +303,7 @@ let get_piece_type (move: move) =
 (*Gets the piece used in the given move*)
 
 (** Unimplementable functionality for near future specified by MLI. Many of these fail because of no persistant state*)
-let get_legal_moves (coordinate: coordinate)= failwith ("Unimplemented")
+(* let get_legal_moves (coordinate: coordinate)= failwith ("Unimplemented")
 (*Returns all the positions that the piece at the coordinate can legally move to.*)
 let get_time_left (player: player)= failwith("Unimplemented")
 (*Returns the amount of time that the given player has remaining*)
@@ -321,7 +321,7 @@ let get_time_since_last_move = failwith("Unimplemented")
 (*Gets the time elapsed since the last move in seconds*)
 let get_time_since_start = failwith("Unimplemented")
 (*Gets the time elapsed from game start to the given move, in seconds*)
-let get_log = failwith("Unimplemented")
+let get_log = failwith("Unimplemented") *)
 (*Returns a list of all of the moves taken in chronological ordering*)
 
 let demo start_coord end_coord = check_move start_coord end_coord init_board
