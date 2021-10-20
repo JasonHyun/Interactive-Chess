@@ -1,4 +1,9 @@
 To run backend demo, use "OCAMLRUNPARAM=b dune exec demo/main.exe"
-To run frontend demo, use "please put here frontend team"
+To run frontend demo, use "dune exec ./test.exe"
+
 Neccesary installs:
->Please list below
+  Frontend (for Windows only; if using Mac, use Homebrew instead): 
+    sudo apt-get install pkg-config
+    sudo apt-get install libpng-dev
+    opam install graphics
+    opam install camlimages
