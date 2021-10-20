@@ -1,2 +1,3 @@
-(executable
- (name backend))
+(library
+ (name backend)
+ (public_name Chess))

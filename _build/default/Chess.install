@@ -1,7 +1,19 @@
 lib: [
   "_build/install/default/lib/Chess/META"
+  "_build/install/default/lib/Chess/backend.a"
+  "_build/install/default/lib/Chess/backend.cma"
+  "_build/install/default/lib/Chess/backend.cmi"
+  "_build/install/default/lib/Chess/backend.cmt"
+  "_build/install/default/lib/Chess/backend.cmti"
+  "_build/install/default/lib/Chess/backend.cmx"
+  "_build/install/default/lib/Chess/backend.cmxa"
+  "_build/install/default/lib/Chess/backend.ml"
+  "_build/install/default/lib/Chess/backend.mli"
   "_build/install/default/lib/Chess/dune-package"
   "_build/install/default/lib/Chess/opam"
+]
+libexec: [
+  "_build/install/default/lib/Chess/backend.cmxs"
 ]
 doc: [
   "_build/install/default/doc/Chess/README.md"

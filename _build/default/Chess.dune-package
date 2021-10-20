@@ -1,2 +1,17 @@
 (lang dune 2.9)
 (name Chess)
+(library
+ (name Chess)
+ (kind normal)
+ (archives (byte backend.cma) (native backend.cmxa))
+ (plugins (byte backend.cma) (native backend.cmxs))
+ (native_archives backend.a)
+ (main_module_name Backend)
+ (modes byte native)
+ (modules
+  (singleton
+   (name Backend)
+   (obj_name backend)
+   (visibility public)
+   (impl)
+   (intf))))

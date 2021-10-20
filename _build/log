@@ -1,10 +1,10 @@
-# dune exec test/main.exe
+# dune build
 # OCAMLPARAM: unset
 # Workspace root: /home/vk262/3110/3110chess
-$ /usr/bin/nproc > /tmp/dune46499c.output 2> /dev/null
+$ /usr/bin/nproc > /tmp/dune838b5a.output 2> /dev/null
 # Auto-detected concurrency: 4
 # disable binary cache
-$ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune381343.output
+$ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune1d6795.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -111,3 +111,9 @@ $ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune381343.outpu
 #      ; windows_unicode = false
 #      }
 #  }
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -bin-annot -I demo/.command.eobjs/byte -I /home/vk262/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/vk262/.opam/cs3110-2021fa/lib/bytes -I src/.backend.objs/byte -no-alias-deps -opaque -o demo/.command.eobjs/byte/dune__exe__Command.cmo -c -impl demo/command.ml)
+> File "demo/command.ml", line 1, characters 5-10:
+> 1 | open Chess
+>          ^^^^^
+> Error: Unbound module Chess
+[2]

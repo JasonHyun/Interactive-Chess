@@ -1,0 +1,6 @@
+description = ""
+requires = ""
+archive(byte) = "backend.cma"
+archive(native) = "backend.cmxa"
+plugin(byte) = "backend.cma"
+plugin(native) = "backend.cmxs"

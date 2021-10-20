@@ -9,6 +9,13 @@ type coordinate = {
   row: row;
 }
 (** The type of coordinate identifiers*)
+type index = int
+(** type of an index of the 8x8 board, range of 0-7 *)
+type board_coord = {
+  column:index;
+  row:index;
+}
+(** type of record to index board, derived from coordinate *)
 type piece_type = char
 (** The type representing piece name
  Rook: 'R'
@@ -22,7 +29,8 @@ type piece = {
   player: player;
   piece_type: piece_type;
 }
-(* Defines a piece on the board, by showing the player who controls it and the piece's type*)
+(* Defines a piece on the board, by showing the player who controls it
+   and the piece's type*)
 type space = Piece of piece | Empty
 (*Defines a space on the board, either a piece or an empty space*)
 type time = int
@@ -57,14 +65,20 @@ type game = {
   white_time: time;
   black_time: time;
 }
-(** Defines the total state of a game, including board state and time left for every player*)
+(** Defines the total state of a game, including board state and time
+    left for every player*)
 
-let make_pieces(player: player)(piece_types: piece_type list) = 
-  let rec make_rec (player:player) (piece_types: piece_type list) (pieces: space list) =
-    match piece_types with 
+let make_pieces (player : player) (piece_types : piece_type list) =
+  let rec make_rec
+      (player : player)
+      (piece_types : piece_type list)
+      (pieces : space list) =
+    match piece_types with
     | [] -> pieces
-    | h :: t -> make_rec player t (pieces @ [Piece {player= player; piece_type= h}])
-  in make_rec player piece_types []
+    | h :: t ->
+        make_rec player t (pieces @ [ Piece { player; piece_type = h } ])
+  in
+  make_rec player piece_types []
 (** Makes pieces of given types and player. Kinda ugly so refactor should be done.*)
 
 let empty_row =
@@ -75,11 +89,12 @@ let make_pawns (player: player)=
 (**Makes a row of pawns under the control of the given player*)
 let make_rest (player: player)=
   make_pieces player ['R';'N';'B';'Q';'K';'B';'N';'R']
-(**Creates a row that contains the starting non-pawn pieces for the given player)*)
+(**Creates a row that contains the starting non-pawn pieces for the given player*)
 let init_board = 
   [make_rest Black; make_pawns Black; empty_row; empty_row; 
   empty_row; empty_row; make_pawns White; make_rest White; ]
 (**Initializes the state of a board at the start of the game of chess*)
+
 
 let get_piece_from_space (space: space) =
   match space with 
@@ -103,13 +118,9 @@ let init_game =
     white_time = player_time;
     black_time = player_time;
   }
-(*Initializes the board to the correct opening state, sets players' time as well *)
+(*Initializes the board to the correct opening state, sets players' time
+  as well *)
 
-let check_coord_in_bounds (coordinate: coordinate)= 
-    let columnCheck = List.mem coordinate.column ['A';'B';'C';'D';'E';'F';'G';'H'] in
-    let rowCheck = if coordinate.row >= 1 && coordinate.row <= 8 then true else false in 
-    columnCheck && rowCheck
-(**Checks that the given coordinate obeys the rules for coordinates *)
 
 let col_to_index(column: column) =
   match column with 
@@ -124,47 +135,145 @@ let col_to_index(column: column) =
   | _ -> failwith ("col_to_index invalid column "^ Char.escaped column) 
 (** Maps the column character to an index to be used when indexing rows*)
 
-let get_space_at_coord (coordinate: coordinate) (board: board) = 
-  if check_coord_in_bounds coordinate then 
-   let row = List.nth board coordinate.row in 
-    List.nth row (col_to_index coordinate.column)
+let coord_to_index (coordinate : coordinate) =
+  { column = col_to_index coordinate.column; row = coordinate.row - 1 }
+(** convert coordinate type to board_coord type *)
+
+let check_coord_in_bounds (board_coord: board_coord)= 
+    let columnCheck = (board_coord.column >= 0 && board_coord.column <= 7) in
+    let rowCheck = (board_coord.row >= 0 && board_coord.row <= 7) in 
+    columnCheck && rowCheck
+(**Checks that the given coordinate obeys the rules for coordinates *)
+
+let get_space_at_coord (board_coord: board_coord) (board: board) = 
+  if check_coord_in_bounds board_coord then 
+   let row = List.nth board board_coord.row in 
+    List.nth row board_coord.column
   else 
     failwith ("Unusable coordinate supplied to get_space_at_coord")
 (** Returns the space on the board with the given coordinates*)
 
-(* let move_dist (start_coord: coordinate) (end_coord: coordinate) = { (col_to_index end_coord.column) - (col_to_index start_coord.column); end_coord.row - start_coord.row} *)
+let move_dist (start_coord : board_coord) (end_coord : board_coord) =
+  ( Int.abs
+      (end_coord.column - start_coord.column),
+    Int.abs (end_coord.row - start_coord.row) )
+(** Finds distance travelled from start to end locations recorded in
+    magnitude *)
 
-let check_pawn (start_coord: coordinate) (end_coord: coordinate) = false
+let space_check (coord : board_coord) (board : board) =
+  let tile = get_space_at_coord coord board in
+  get_piece_from_space tile
+(** returns piece color at a given coordinate, if empty returns space *)
+
+
+let rec path_clear
+    (current : board_coord)
+    (finish : board_coord)
+    (board : board)
+    ((incr_c, incr_r) : index * index) =
+  if current = finish then
+    let first = get_space_at_coord finish board in
+    let second = get_space_at_coord current board in
+    match (first, second) with
+    | Piece p1, Piece p2 -> p1.player <> p2.player
+    | _ -> true
+  else
+    space_check current board = ' '
+    && path_clear
+         {
+           column = current.column + incr_c;
+           row = current.row + incr_r;
+         }
+         finish board (incr_c, incr_r)
+(** checks for a linear path from start to end that no other pieces are
+    in the way on that path *)
+
+let incr_deriv (start_coord : board_coord) (end_coord : board_coord) =
+  let dx = end_coord.column - start_coord.column in
+  let dy = end_coord.row - start_coord.row in
+  ( (if dx = 0 then 0 else dx / Int.abs dx),
+    if dy = 0 then 0 else dy / Int.abs dy )
+(* Finds linear increments to get from start to endpoint *)
+
+
+let check_pawn
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
+  let dy, dx = move_dist start_coord end_coord in
+  dx = 0
+  && (dy = 1
+     || dy = 2
+        && ((space_check start_coord board = 'p' && start_coord.row = 6)
+           || space_check start_coord board = 'P'
+              && start_coord.row = 1))
 (*TODO checks using pawn rules to see if move is valid*)
-let check_knight (start_coord: coordinate) (end_coord: coordinate) = false
+let check_knight
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
+  let dy, dx = move_dist start_coord end_coord in
+  dy + dx = 3
+  && Int.abs (dy - dx) = 1
+  && path_clear end_coord end_coord board (dx, dy)
 (*TODO checks using knight rules to see if move is valid*)
-let check_bishop (start_coord: coordinate) (end_coord: coordinate) = false
+let check_bishop
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
+  let dx, dy = move_dist start_coord end_coord in
+  dy = dx && dy > 0
+  && path_clear start_coord end_coord board
+       (incr_deriv start_coord end_coord)
 (*TODO checks using bishop rules to see if move is valid*)
-let check_king (start_coord: coordinate) (end_coord: coordinate) = false
+let check_king
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
+  let dy, dx = move_dist start_coord end_coord in
+  (dy > 0 || dx > 0) && path_clear end_coord end_coord board (dx, dy)
 (*TODO checks using king rules to see if move is valid*)
-let check_rook (start_coord: coordinate) (end_coord: coordinate) = false
+let check_rook
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
+  let dy, dx = move_dist start_coord end_coord in
+  (dx = 0 && dy > 0)
+  || (dy = 0 && dx > 0)
+     && path_clear start_coord end_coord board
+          (incr_deriv start_coord end_coord)
 (*TODO checks using rook rules to see if move is valid*)
-let check_queen (start_coord: coordinate) (end_coord: coordinate) = false
+let check_queen (start_coord: board_coord) (end_coord: board_coord) (board : board) = 
+  check_bishop start_coord end_coord board || check_rook start_coord end_coord board
 (*TODO checks using queen rules to see if move is valid*)
 
   
-let check_coords_in_bounds (coordinate_list: coordinate list)= 
+let check_coords_in_bounds (coordinate_list: board_coord list)= 
   let bool_list =List.map check_coord_in_bounds coordinate_list in
   let is_true x = x = true in 
     List.for_all(is_true) bool_list
 (**Checks that all coordinates in the given list follow the invariants.  *)
 
-let check_piece_rules (start_coord: coordinate) (end_coord: coordinate) (board: board) (piece_type: piece_type)= 
-  match piece_type with
-  | 'P' -> check_pawn start_coord end_coord
-  | 'N' -> check_knight start_coord end_coord
-  | 'B' -> check_bishop start_coord end_coord
-  | 'K' -> check_king start_coord end_coord
-  | 'R' -> check_rook start_coord end_coord
-  | 'Q' -> check_queen start_coord end_coord
-  | _ -> failwith ("Board invariant violated: non-valid piece-type "^ Char.escaped piece_type)
+let check_piece_rules
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board)
+    (piece_type : piece_type) =
+  if start_coord = end_coord then false
+  else
+    match piece_type with
+    | 'P' -> check_pawn start_coord end_coord board
+    | 'N' -> check_knight start_coord end_coord board
+    | 'B' -> check_bishop start_coord end_coord board
+    | 'K' -> check_king start_coord end_coord board
+    | 'R' -> check_rook start_coord end_coord board
+    | 'Q' -> check_queen start_coord end_coord board
+    | _ ->
+        failwith
+          ("Board invariant violated: non-valid piece-type "
+         ^ Char.escaped piece_type)
 (**Using the rules for the given piece, returns true iff the given move is legal. Ignores if move puts you in check*)
-let check_move (start_coord: coordinate) (end_coord: coordinate) (board: board)= 
+let check_move (start_coord: board_coord) (end_coord: board_coord) (board: board)= 
   if check_coords_in_bounds [start_coord; end_coord] = false then failwith ("Invalid coordinate") else 
     let piece = get_space_at_coord start_coord board in
       match piece with
