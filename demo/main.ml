@@ -1,8 +1,8 @@
-open Chess.Backend
+include Chess.Backend
 
 type demoset = (board_coord * board_coord * string) list
 
-let demo x y line =
+let demos x y line =
   print_endline line;
   let res = demo x y in
   match res with
@@ -11,13 +11,14 @@ let demo x y line =
 
 let rec democheck = function
   | (start, finish, line) :: t ->
-      let _ = demo start finish line in
+      let _ = demos start finish line in
       democheck t
   | [] -> print_endline "complete.\n"
 
 let main () =
   ANSITerminal.print_string [ ANSITerminal.red ]
     "\n\nWelcome to the 3110 Text Adventure Game engine.\n";
+  (* let () = log_board init_board in *)
   let piecetests =
     [
       ( { column = 1; row = 0 },

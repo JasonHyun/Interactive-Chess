@@ -37,6 +37,7 @@ type checkmate = bool
 (** True iff the move places the opposing player in checkmate*)
 
 (*Below are the methods I suspect will be most useful to the front end team*)
+
 type board_coord = {
   column:int;
   row:int;
