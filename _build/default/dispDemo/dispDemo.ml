@@ -25,6 +25,8 @@ draw_string "Log goes here";
 moveto 850 530;
 draw_string "Menu goes here"
 
+(*library doesnt seem to support transparency in pngs, so map function
+  from unused color to transparent*)
 let make_transp a = if a = 0x656654 then transp else a
 
 let make_transp_image a = Array.map make_transp a
@@ -122,6 +124,7 @@ let no_piece =
 
 let board = [] |> Png.load "assets/board.png" |> Graphic_image.of_image
 
+(*static starting board*)
 let current_board =
   [|
     rlt;
@@ -190,6 +193,7 @@ let current_board =
     rdt;
   |]
 
+(*x coordinates*)
 let x_order =
   [|
     5;
@@ -258,6 +262,7 @@ let x_order =
     355;
   |]
 
+(*y coordinates*)
 let y_order =
   [|
     5;
@@ -326,16 +331,8 @@ let y_order =
     355;
   |]
 
+(*draw view for player on light side*)
 let draw_dt current_board =
-  Graphics.draw_image board 5 5;
-  for i = 0 to 63 do
-    let a = Array.get current_board i in
-    let x = Array.get x_order i in
-    let y = Array.get y_order i in
-    Graphics.draw_image a x y
-  done
-
-let draw_lt current_board =
   Graphics.draw_image board 5 5;
   for i = 0 to 63 do
     let a = Array.get current_board (63 - i) in
@@ -343,9 +340,19 @@ let draw_lt current_board =
     let y = Array.get y_order i in
     Graphics.draw_image a x y
   done
+
+(*draw view for player on dark side*)
+let draw_lt current_board =
+  Graphics.draw_image board 5 5;
+  for i = 0 to 63 do
+    let a = Array.get current_board i in
+    let x = Array.get x_order i in
+    let y = Array.get y_order i in
+    Graphics.draw_image a x y
+  done
 ;;
 
 while true do
-  if button_down () then draw_lt current_board
-  else draw_dt current_board
+  if button_down () then draw_dt current_board
+  else draw_lt current_board
 done
