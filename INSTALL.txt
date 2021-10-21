@@ -1,5 +1,7 @@
 To run backend demo, use "OCAMLRUNPARAM=b dune exec demo/main.exe"
-To run frontend demo, use "dune exec dispDemo/dispDemo.exe"
+
+To build frontend demo, use "dune build dispDemo.exe" from the dispDemo directory
+To run frontend demo, use "dune exec dispDemo/dispDemo.exe" from the home directory
 
 Neccesary installs:
   Frontend (for Windows only; if using Mac, use Homebrew instead): 
