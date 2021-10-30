@@ -95,8 +95,12 @@ let init_board =
   empty_row; empty_row; make_pawns White; make_rest White; ]
 (**Initializes the state of a board at the start of the game of chess*)
 
-
 let get_piece_from_space (space: space) =
+  match space with 
+  | Empty -> failwith "No piece at given space in get_piece_from_space"
+  | Piece piece -> piece
+
+let get_piece_type_from_space (space: space) =
   match space with 
   | Empty -> ' '
   | Piece piece -> 
@@ -106,7 +110,7 @@ let get_piece_from_space (space: space) =
 (**Gives a printable char representation of a piece from the given space. 
 Uppercase is a white piece, lowercase for a black piece*)
 let log_row (row: space list)=
-  let chars = List.map get_piece_from_space row in 
+  let chars = List.map get_piece_type_from_space row in 
   String.concat " " (List.map Char.escaped chars)
 (**Logs the given row of the board to the printer.*)
 let log_board (board: board) = 
@@ -162,7 +166,7 @@ let move_dist (start_coord : board_coord) (end_coord : board_coord) =
 
 let space_check (coord : board_coord) (board : board) =
   let tile = get_space_at_coord coord board in
-  get_piece_from_space tile
+  get_piece_type_from_space tile
 (** returns piece color at a given coordinate, if empty returns space *)
 
 
@@ -255,6 +259,28 @@ let check_coords_in_bounds (coordinate_list: board_coord list)=
     List.for_all(is_true) bool_list
 (**Checks that all coordinates in the given list follow the invariants.  *)
 
+
+
+let replace lst pos replacement  = 
+  List.mapi (fun i x -> if i = pos then replacement else x) lst;;
+(** Replaces index pos in given lst with element replacement.
+Credit: https://stackoverflow.com/questions/37091784/ocaml-function-replace-a-element-in-a-list*)
+let set_board (board: board)
+  (space: space) 
+  (coord: board_coord) =
+  let new_row = 
+    replace (List.nth board coord.row) coord.column space  in 
+    replace board coord.row new_row
+(**Puts Piece piece at the given coordinate in the given board*)
+let make_move
+  (start_coord: board_coord)
+  (end_coord: board_coord)
+  (board: board) = 
+  let s_space =  get_space_at_coord start_coord board in 
+  let s_piece = get_piece_from_space s_space in 
+  let moved_board = set_board board (Piece s_piece) end_coord in 
+  set_board moved_board Empty
+(**Moves the piece at start_coord to end_coord and replaces the piece at start_coord with empty space*)
 let check_piece_rules
     (start_coord : board_coord)
     (end_coord : board_coord)
