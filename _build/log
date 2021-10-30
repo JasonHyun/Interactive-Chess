@@ -1,10 +1,10 @@
-# dune exec dispDemo/dispDemo.exe
+# dune exec demo/main.exe
 # OCAMLPARAM: unset
-# Workspace root: /home/acai/3110/3110chess
-$ /usr/bin/nproc > /tmp/dunedeed06.output 2> /dev/null
-# Auto-detected concurrency: 12
+# Workspace root: /home/vk262/3110/3110chess
+$ /usr/bin/nproc > /tmp/dune623638.output 2> /dev/null
+# Auto-detected concurrency: 4
 # disable binary cache
-$ /home/acai/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dunec704b3.output
+$ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/duned1dbd7.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -14,36 +14,37 @@ $ /home/acai/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dunec704b3.output
 #  ; fdo_target_exe = None
 #  ; build_dir = "default"
 #  ; toplevel_path =
-#      Some External "/home/acai/.opam/cs3110-2021fa/lib/toplevel"
-#  ; ocaml_bin = External "/home/acai/.opam/cs3110-2021fa/bin"
-#  ; ocaml = Ok External "/home/acai/.opam/cs3110-2021fa/bin/ocaml"
-#  ; ocamlc = External "/home/acai/.opam/cs3110-2021fa/bin/ocamlc.opt"
-#  ; ocamlopt = Ok External "/home/acai/.opam/cs3110-2021fa/bin/ocamlopt.opt"
-#  ; ocamldep = Ok External "/home/acai/.opam/cs3110-2021fa/bin/ocamldep.opt"
+#      Some External "/home/vk262/.opam/cs3110-2021fa/lib/toplevel"
+#  ; ocaml_bin = External "/home/vk262/.opam/cs3110-2021fa/bin"
+#  ; ocaml = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocaml"
+#  ; ocamlc = External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamldep.opt"
 #  ; ocamlmklib =
-#      Ok External "/home/acai/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
+#      Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
 #  ; env =
 #      map
-#        { "DUNE_OCAML_HARDCODED" : "/home/acai/.opam/cs3110-2021fa/lib"
-#        ; "DUNE_OCAML_STDLIB" : "/home/acai/.opam/cs3110-2021fa/lib/ocaml"
-#        ; "DUNE_SOURCEROOT" : "/home/acai/3110/3110chess"
-#        ; "INSIDE_DUNE" : "/home/acai/3110/3110chess/_build/default"
+#        { "DUNE_OCAML_HARDCODED" : "/home/vk262/.opam/cs3110-2021fa/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" : "/home/vk262/3110/3110chess"
+#        ; "INSIDE_DUNE" : "/home/vk262/3110/3110chess/_build/default"
 #        ; "OCAMLFIND_IGNORE_DUPS_IN" :
-#            "/home/acai/3110/3110chess/_build/install/default/lib"
-#        ; "OCAMLPATH" : "/home/acai/3110/3110chess/_build/install/default/lib"
+#            "/home/vk262/3110/3110chess/_build/install/default/lib"
+#        ; "OCAMLPATH" :
+#            "/home/vk262/3110/3110chess/_build/install/default/lib"
 #        ; "OCAMLTOP_INCLUDE_PATH" :
-#            "/home/acai/3110/3110chess/_build/install/default/lib/toplevel"
+#            "/home/vk262/3110/3110chess/_build/install/default/lib/toplevel"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
-#  ; findlib_path = [ External "/home/acai/.opam/cs3110-2021fa/lib" ]
+#  ; findlib_path = [ External "/home/vk262/.opam/cs3110-2021fa/lib" ]
 #  ; arch_sixtyfour = true
 #  ; natdynlink_supported = true
 #  ; supports_shared_libraries = true
 #  ; ocaml_config =
 #      { version = "4.12.0"
-#      ; standard_library_default = "/home/acai/.opam/cs3110-2021fa/lib/ocaml"
-#      ; standard_library = "/home/acai/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library_default = "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library = "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
 #      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
 #      ; ccomp_type = "cc"
 #      ; c_compiler = "gcc"
@@ -110,4 +111,4 @@ $ /home/acai/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dunec704b3.output
 #      ; windows_unicode = false
 #      }
 #  }
-# Workspace root: /home/acai/3110/3110chess
+# Workspace root: /home/vk262/3110/3110chess

@@ -202,11 +202,12 @@ let check_pawn
     (board : board) =
   let dx, dy = move_dist start_coord end_coord in
   dx = 0
-  && (dy = 1
-     || dy = 2
+  && (end_coord.row - start_coord.row = 1
+     || end_coord.row - start_coord.row = 2
         && ((space_check start_coord board = 'p' && start_coord.row = 6)
            || space_check start_coord board = 'P'
               && start_coord.row = 1))
+  || (dx = 1 && dy = 1 && path_clear end_coord end_coord board (0, 0))
 (*checks using pawn rules to see if move is valid TODO: Pawn attacks en pass*)
 let check_knight
     (start_coord : board_coord)
@@ -216,7 +217,7 @@ let check_knight
   dy + dx = 3
   && Int.abs (dy - dx) = 1
   && path_clear end_coord end_coord board (dx, dy)
-(*TODO checks using knight rules to see if move is valid*)
+(*\checks using knight rules to see if move is valid*)
 let check_bishop
     (start_coord : board_coord)
     (end_coord : board_coord)
@@ -225,7 +226,7 @@ let check_bishop
   dy = dx && dy > 0
   && path_clear start_coord end_coord board
        (incr_deriv start_coord end_coord)
-(*TODO checks using bishop rules to see if move is valid*)
+(*checks using bishop rules to see if move is valid*)
 let check_king
     (start_coord : board_coord)
     (end_coord : board_coord)
