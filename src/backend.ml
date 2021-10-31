@@ -205,13 +205,14 @@ let check_pawn
     (end_coord : board_coord)
     (board : board) =
   let dx, dy = move_dist start_coord end_coord in
-  dx = 0
-  && (end_coord.row - start_coord.row = 1
-     || end_coord.row - start_coord.row = 2
-        && ((space_check start_coord board = 'p' && start_coord.row = 6)
-           || space_check start_coord board = 'P'
-              && start_coord.row = 1))
-  || (dx = 1 && dy = 1 && path_clear end_coord end_coord board (0, 0))
+  let dir = if space_check start_coord board = 'P' then 1 else -1 in
+  (dx = 0 && 
+      ((end_coord.row - start_coord.row) = (dir * 1)
+      || ((end_coord.row - start_coord.row) = (dir * 2)
+          && ((dir = -1 && start_coord.row = 6)
+              || (dir = 1 && start_coord.row = 1)) ) ))
+  || (dx = 1 && (end_coord.row - start_coord.row) = (dir*1)
+      && path_clear end_coord end_coord board (0, 0))
 (*checks using pawn rules to see if move is valid TODO: Pawn attacks en pass*)
 let check_knight
     (start_coord : board_coord)
@@ -248,9 +249,23 @@ let check_rook
      && path_clear start_coord end_coord board
           (incr_deriv start_coord end_coord)
 (*TODO checks using rook rules to see if move is valid*)
-let check_queen (start_coord: board_coord) (end_coord: board_coord) (board : board) = 
-  check_bishop start_coord end_coord board || check_rook start_coord end_coord board
+let check_queen
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
+  check_bishop start_coord end_coord board
+  || check_rook start_coord end_coord board
 (*TODO checks using queen rules to see if move is valid*)
+
+let check_castle
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
+  match (get_space_at_coord start_coord board) with
+  | Piece {player = _; piece_type = 'R'} -> true
+  | Piece {player = _; piece_type = 'K'} -> true
+  | Piece _ -> false
+  | Empty -> false
 
   
 let check_coords_in_bounds (coordinate_list: board_coord list)= 
@@ -403,7 +418,7 @@ let get_end (move: move) =
 let get_piece_type (move: move) =
   move.piece.piece_type
 
-  let demo_board = log_board init_board
+let demo_board = log_board init_board
 let demo start_coord end_coord = check_move start_coord end_coord init_board
 
 (*Gets the piece used in the given move*)
