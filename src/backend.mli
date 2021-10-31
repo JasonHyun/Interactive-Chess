@@ -52,6 +52,7 @@ type piece = {
 type space = Piece of piece | Empty
 type board = space list list
 val log_board : board -> string list 
+(* val demo : board_coord -> board_coord -> board -> piece_type -> bool *)
 
 (* val make_move: coordinate -> coordinate -> move *)
 (*[start_coordinate end_coordinate] takes the given input, creates object of type [move] 

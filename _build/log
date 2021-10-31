@@ -1,10 +1,10 @@
-# dune build
+# dune exec test/main.exe
 # OCAMLPARAM: unset
-# Workspace root: /home/neil/Chess
-$ /usr/bin/nproc > /tmp/dune2b02d2.output 2> /dev/null
-# Auto-detected concurrency: 16
+# Workspace root: /home/vk262/3110/3110chess
+$ /usr/bin/nproc > /tmp/dune502494.output 2> /dev/null
+# Auto-detected concurrency: 4
 # disable binary cache
-$ /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune18cc6b.output
+$ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune4bbe44.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -14,36 +14,37 @@ $ /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune18cc6b.output
 #  ; fdo_target_exe = None
 #  ; build_dir = "default"
 #  ; toplevel_path =
-#      Some External "/home/neil/.opam/cs3110-2021fa/lib/toplevel"
-#  ; ocaml_bin = External "/home/neil/.opam/cs3110-2021fa/bin"
-#  ; ocaml = Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocaml"
-#  ; ocamlc = External "/home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt"
-#  ; ocamlopt = Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt"
-#  ; ocamldep = Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocamldep.opt"
+#      Some External "/home/vk262/.opam/cs3110-2021fa/lib/toplevel"
+#  ; ocaml_bin = External "/home/vk262/.opam/cs3110-2021fa/bin"
+#  ; ocaml = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocaml"
+#  ; ocamlc = External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamldep.opt"
 #  ; ocamlmklib =
-#      Ok External "/home/neil/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
+#      Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
 #  ; env =
 #      map
-#        { "DUNE_OCAML_HARDCODED" : "/home/neil/.opam/cs3110-2021fa/lib"
-#        ; "DUNE_OCAML_STDLIB" : "/home/neil/.opam/cs3110-2021fa/lib/ocaml"
-#        ; "DUNE_SOURCEROOT" : "/home/neil/Chess"
-#        ; "INSIDE_DUNE" : "/home/neil/Chess/_build/default"
+#        { "DUNE_OCAML_HARDCODED" : "/home/vk262/.opam/cs3110-2021fa/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" : "/home/vk262/3110/3110chess"
+#        ; "INSIDE_DUNE" : "/home/vk262/3110/3110chess/_build/default"
 #        ; "OCAMLFIND_IGNORE_DUPS_IN" :
-#            "/home/neil/Chess/_build/install/default/lib"
-#        ; "OCAMLPATH" : "/home/neil/Chess/_build/install/default/lib"
+#            "/home/vk262/3110/3110chess/_build/install/default/lib"
+#        ; "OCAMLPATH" :
+#            "/home/vk262/3110/3110chess/_build/install/default/lib"
 #        ; "OCAMLTOP_INCLUDE_PATH" :
-#            "/home/neil/Chess/_build/install/default/lib/toplevel"
+#            "/home/vk262/3110/3110chess/_build/install/default/lib/toplevel"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
-#  ; findlib_path = [ External "/home/neil/.opam/cs3110-2021fa/lib" ]
+#  ; findlib_path = [ External "/home/vk262/.opam/cs3110-2021fa/lib" ]
 #  ; arch_sixtyfour = true
 #  ; natdynlink_supported = true
 #  ; supports_shared_libraries = true
 #  ; ocaml_config =
 #      { version = "4.12.0"
-#      ; standard_library_default = "/home/neil/.opam/cs3110-2021fa/lib/ocaml"
-#      ; standard_library = "/home/neil/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library_default = "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library = "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
 #      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
 #      ; ccomp_type = "cc"
 #      ; c_compiler = "gcc"
@@ -110,21 +111,8 @@ $ /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune18cc6b.output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -bin-annot -I src/.chess.objs/byte -no-alias-deps -opaque -o src/.chess.objs/byte/chess.cmo -c -impl src/chess.ml-gen)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -intf src/authors.mli) > _build/default/src/.chess.objs/authors.mli.d
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -impl src/authors.ml) > _build/default/src/.chess.objs/authors.ml.d
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -intf src/backend.mli) > _build/default/src/.chess.objs/backend.mli.d
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -impl src/backend.ml) > _build/default/src/.chess.objs/backend.ml.d
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -bin-annot -I src/.chess.objs/byte -no-alias-deps -opaque -open Chess -o src/.chess.objs/byte/chess__Authors.cmi -c -intf src/authors.mli)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml-gen -no-alias-deps -opaque -o src/.chess.objs/native/chess.cmx -c -impl src/chess.ml-gen)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -bin-annot -I src/.chess.objs/byte -no-alias-deps -opaque -open Chess -o src/.chess.objs/byte/chess__Backend.cmi -c -intf src/backend.mli)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -bin-annot -I src/.chess.objs/byte -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/byte/chess__Authors.cmo -c -impl src/authors.ml)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/native/chess__Authors.cmx -c -impl src/authors.ml)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -bin-annot -I src/.chess.objs/byte -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/byte/chess__Backend.cmo -c -impl src/backend.ml)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -a -o src/chess.cma src/.chess.objs/byte/chess.cmo src/.chess.objs/byte/chess__Backend.cmo src/.chess.objs/byte/chess__Authors.cmo)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/native/chess__Backend.cmx -c -impl src/backend.ml)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -a -o src/chess.cmxa src/.chess.objs/native/chess.cmx src/.chess.objs/native/chess__Backend.cmx src/.chess.objs/native/chess__Authors.cmx)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -bin-annot -I demo/.main.eobjs/byte -I /home/neil/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/neil/.opam/cs3110-2021fa/lib/bytes -I src/.chess.objs/byte -no-alias-deps -opaque -o demo/.main.eobjs/byte/dune__exe__Main.cmo -c -impl demo/main.ml)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I demo/.main.eobjs/byte -I demo/.main.eobjs/native -I /home/neil/.opam/cs3110-2021fa/lib/ANSITerminal -I /home/neil/.opam/cs3110-2021fa/lib/bytes -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -o demo/.main.eobjs/native/dune__exe__Main.cmx -c -impl demo/main.ml)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -shared -linkall -I src -o src/chess.cmxs src/chess.cmxa)
-$ (cd _build/default && /home/neil/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -o demo/main.exe src/chess.cmxa /home/neil/.opam/cs3110-2021fa/lib/ocaml/unix.cmxa -I /home/neil/.opam/cs3110-2021fa/lib/ocaml /home/neil/.opam/cs3110-2021fa/lib/ANSITerminal/ANSITerminal.cmxa -I /home/neil/.opam/cs3110-2021fa/lib/ANSITerminal demo/.main.eobjs/native/dune__exe__Main.cmx)
+# Workspace root: /home/vk262/3110/3110chess
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -impl src/backend.ml) > _build/default/src/.chess.objs/backend.ml.d
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/native/chess__Backend.cmx -c -impl src/backend.ml)
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -a -o src/chess.cmxa src/.chess.objs/native/chess.cmx src/.chess.objs/native/chess__Backend.cmx src/.chess.objs/native/chess__Authors.cmx)
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -o test/main.exe src/chess.cmxa /home/vk262/.opam/cs3110-2021fa/lib/ocaml/unix.cmxa -I /home/vk262/.opam/cs3110-2021fa/lib/ocaml /home/vk262/.opam/cs3110-2021fa/lib/stdlib-shims/stdlib_shims.cmxa /home/vk262/.opam/cs3110-2021fa/lib/ounit2/advanced/oUnitAdvanced.cmxa /home/vk262/.opam/cs3110-2021fa/lib/ounit2/oUnit.cmxa test/.main.eobjs/native/dune__exe__Main.cmx)
