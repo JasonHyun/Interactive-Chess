@@ -4,7 +4,7 @@ type demoset = (board_coord * board_coord * string) list
 
 let demos x y line =
   print_endline line;
-  let res = demo x y in
+  let res = demo x y [ [ Empty ] ] in
   match res with
   | true -> print_endline "true\n"
   | false -> print_endline "false\n"

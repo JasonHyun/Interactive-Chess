@@ -419,7 +419,7 @@ let get_piece_type (move: move) =
   move.piece.piece_type
 
 let demo_board = log_board init_board
-let demo start_coord end_coord = check_move start_coord end_coord init_board
+let demo start_coord end_coord board = check_move start_coord end_coord (if (List.length board) = 1 then init_board else board)
 
 (*Gets the piece used in the given move*)
 

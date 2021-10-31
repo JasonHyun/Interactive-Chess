@@ -43,14 +43,14 @@ type board_coord = {
   column:int;
   row:int;
 }
-val demo : board_coord -> board_coord -> checkmate
-val demo_board : string list
 type piece = {
   player: player;
   piece_type: piece_type;
 }
 type space = Piece of piece | Empty
 type board = space list list
+val demo : board_coord -> board_coord -> board -> checkmate
+val demo_board : string list
 val log_board : board -> string list 
 (* val demo : board_coord -> board_coord -> board -> piece_type -> bool *)
 

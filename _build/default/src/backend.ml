@@ -210,7 +210,7 @@ let check_pawn
       ((end_coord.row - start_coord.row) = (dir * 1)
       || ((end_coord.row - start_coord.row) = (dir * 2)
           && ((dir = -1 && start_coord.row = 6)
-              || (dir = 1 && start_coord.row = 1)) )))
+              || (dir = 1 && start_coord.row = 1)) ) ))
   || (dx = 1 && (end_coord.row - start_coord.row) = (dir*1)
       && path_clear end_coord end_coord board (0, 0))
 (*checks using pawn rules to see if move is valid TODO: Pawn attacks en pass*)
@@ -321,9 +321,84 @@ let check_move (start_coord: board_coord) (end_coord: board_coord) (board: board
       match piece with
       | Empty -> false 
       | Piece piece-> check_piece_rules start_coord end_coord board piece.piece_type
-        
 (**Checks that the move from the start coordinate to the end coordinate follows the rules of movement 
 for the given piece, ignores putting oneself into check considerations *)
+let rec find x lst =
+  match lst with
+  | [] -> raise (Failure "Not Found")
+  | h :: t -> if x = h then 0 else 1 + find x t
+(**Returns index of element x in list lst. 
+Credit to: https://stackoverflow.com/questions/31279920/finding-an-item-in-a-list-and-returning-its-index-ocaml *)
+
+let find_king_coords(board: board) 
+(player: player) =
+    let ideal_piece = Piece {player; piece_type = 'K'} in 
+    let bool_list = List.map (List.mem ideal_piece) board in
+    let row_index = find true bool_list in 
+    let column_index = find ideal_piece (List.nth board row_index) in 
+    {column= column_index; row = row_index }
+(** Returns the board_coords of the given player's king on the given board*)
+  
+
+
+
+let mapMatrix 
+  (threatened_piece: board_coord)
+  (board: board) = 
+  let make_row (curLength: int) =
+    let rec rec_make_row (curLength: int)
+      (curHeight: int)
+      (mHeight: int)
+      (end_coord: board_coord)
+      (board: board)
+      (cur_row: bool list) = 
+      let start_coord = {
+        column = curHeight;
+        row = curLength } in 
+        let cur_row = cur_row @ [check_move start_coord end_coord board] in 
+        if curHeight < mHeight then 
+          rec_make_row curLength (curHeight+1) mHeight end_coord board cur_row
+      else 
+        cur_row
+    in rec_make_row curLength 0 8 threatened_piece board []
+  in let rec rec_make_rows (board: board)
+    (end_coord: board_coord)
+    (cur_length: int)
+    (m_length: int)
+    (cur_board) = 
+    let cur_board = cur_board @ [make_row cur_length] in 
+    if cur_length < m_length then 
+      rec_make_rows board end_coord (cur_length + 1) m_length cur_board
+    else 
+      cur_board
+  in rec_make_rows board threatened_piece 0 8 []
+(**For each space in matrix returns true iff the piece threatens threatened_piece*)
+let check_any_true matrix =
+  List.mem true (
+  List.map (List.mem true) matrix
+  )
+(**Checks to see if there are any true in the matrix*)
+let get_opposite_color (player: player) = 
+  match player with 
+  | White -> Black
+  | Black -> White
+(**Negates the given color*)
+let check_threatened_king (king_coords: board_coord)
+  (board: board) =
+    let mapped_matrix = mapMatrix king_coords board in 
+    check_any_true mapped_matrix
+(**Checks if king at given coords is in Check*)
+let player_in_check (player: player) 
+  (board: board) =
+  let king_coords = find_king_coords board player in 
+    check_threatened_king king_coords board
+  
+      
+  (**Returns true iff the given player is in check*)
+    
+let player_in_checkmate(player: player) = 0
+(** TODO*)
+      
 
 
 let get_check (move: move) = move.check
@@ -344,7 +419,7 @@ let get_piece_type (move: move) =
   move.piece.piece_type
 
 let demo_board = log_board init_board
-let demo start_coord end_coord = check_move start_coord end_coord init_board
+let demo start_coord end_coord board = check_move start_coord end_coord (if (List.length board) = 1 then init_board else board)
 
 (*Gets the piece used in the given move*)
 
