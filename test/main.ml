@@ -45,9 +45,6 @@ let init_board_tests =
       { column = 3; row = 7 } { column = 3; row = 6 } false;
   ]
 
-let empty_row =
-  [ Empty; Empty; Empty; Empty; Empty; Empty; Empty; Empty ]
-
 let test_board =
   [
     [
@@ -75,19 +72,19 @@ let test_board =
       Empty;
       Empty;
       Empty;
-      Empty;
-      Empty;
       Piece { player = White; piece_type = 'K' };
       Piece { player = Black; piece_type = 'P' };
+      Empty;
+      Empty;
     ];
     [
       Empty;
       Piece { player = Black; piece_type = 'R' };
       Empty;
       Empty;
-      Empty;
-      Empty;
       Piece { player = White; piece_type = 'P' };
+      Empty;
+      Empty;
       Empty;
     ];
     [
@@ -118,37 +115,38 @@ let adv_test
 
 let adv_tests =
   [
-    adv_test "move of knight from b1 to c3 is valid"
+    adv_test "adv - move of knight from a5 to c4 is valid"
       { column = 0; row = 4 } { column = 2; row = 3 } true;
-    adv_test "move of pawn from e2 to f3 is valid"
+    adv_test "adv - move of pawn from e2 to f3 is valid"
       { column = 4; row = 1 } { column = 5; row = 2 } true;
-    adv_test "move of pawn from f3 to e2 is valid"
+    adv_test "adv - move of pawn from f3 to e2 is valid"
       { column = 5; row = 2 } { column = 4; row = 1 } true;
-    adv_test "move of pawn from e2 to f2 is invalid"
+    adv_test "adv - move of pawn from e2 to f2 is invalid"
       { column = 4; row = 1 } { column = 5; row = 1 } false;
-    adv_test "move of rook from b2 to b5 is valid"
+    adv_test "adv - move of rook from b2 to b5 is valid"
       { column = 1; row = 1 } { column = 1; row = 4 } true;
-    adv_test "move of rook from b2 to e2 is valid"
+    adv_test "adv - move of rook from b2 to e2 is valid"
       { column = 1; row = 1 } { column = 4; row = 1 } true;
-    adv_test "move of rook from b2 to c3 is invalid"
+    adv_test "adv - move of rook from b2 to c3 is invalid"
       { column = 1; row = 1 } { column = 2; row = 2 } false;
-    adv_test "move of bishop from c4 to a2 is valid"
+    adv_test "adv - move of bishop from c4 to a2 is valid"
       { column = 2; row = 3 } { column = 0; row = 1 } true;
-    adv_test "move of bishop from c4 to e2 is valid"
+    adv_test "adv - move of bishop from c4 to e2 is valid"
       { column = 2; row = 3 } { column = 4; row = 1 } true;
-    adv_test "move of bishop from c4 to e2 is invalid"
+    adv_test "adv - move of bishop from c4 to e2 is invalid"
       { column = 2; row = 3 } { column = 2; row = 2 } false;
-    adv_test "move of queen from c1 to c4 is valid"
+    adv_test "adv - move of queen from c1 to c4 is valid"
       { column = 2; row = 0 } { column = 2; row = 3 } true;
-    adv_test "move of queen from c1 to c3 is valid"
+    adv_test "adv - move of queen from c1 to c3 is valid"
       { column = 2; row = 0 } { column = 2; row = 2 } true;
-    adv_test "move of queen from c1 to b2 is valid"
+    adv_test "adv - move of queen from c1 to b2 is valid"
       { column = 2; row = 0 } { column = 1; row = 1 } true;
-    adv_test "move of queen from c1 to b2 is valid"
+    adv_test "adv -   move of queen from c1 to b2 is valid"
       { column = 2; row = 0 } { column = 3; row = 1 } true;
   ]
 
 let tests =
-  "test suite for A1" >::: List.flatten [ init_board_tests; adv_tests ]
+  "test suite for piece checks"
+  >::: List.flatten [ init_board_tests; adv_tests ]
 
 let _ = run_test_tt_main tests

@@ -157,6 +157,11 @@ let get_space_at_coord (board_coord: board_coord) (board: board) =
     failwith ("Unusable coordinate supplied to get_space_at_coord")
 (** Returns the space on the board with the given coordinates*)
 
+let get_type_space coord board =
+  match get_space_at_coord coord board with
+  | Piece { piece_type = _; player = x } -> x
+  | _ -> failwith "checking empty coords"
+
 let move_dist (start_coord : board_coord) (end_coord : board_coord) =
   ( Int.abs
       (end_coord.column - start_coord.column),
@@ -174,13 +179,11 @@ let rec path_clear
     (current : board_coord)
     (finish : board_coord)
     (board : board)
-    ((incr_c, incr_r) : index * index) =
+    ((incr_c, incr_r) : index * index)
+    (source : player) =
   if current = finish then
-    let first = get_space_at_coord finish board in
-    let second = get_space_at_coord current board in
-    match (first, second) with
-    | Piece p1, Piece p2 -> p1.player <> p2.player
-    | _ -> true
+    if get_space_at_coord finish board = Empty then true 
+      else (get_type_space finish board) <> source
   else
     space_check current board = ' '
     && path_clear
@@ -188,7 +191,7 @@ let rec path_clear
            column = current.column + incr_c;
            row = current.row + incr_r;
          }
-         finish board (incr_c, incr_r)
+         finish board (incr_c, incr_r) source
 (** checks for a linear path from start to end that no other pieces are
     in the way on that path *)
 
@@ -212,7 +215,8 @@ let check_pawn
           && ((dir = -1 && start_coord.row = 6)
               || (dir = 1 && start_coord.row = 1)) ) ))
   || (dx = 1 && (end_coord.row - start_coord.row) = (dir*1)
-      && path_clear end_coord end_coord board (0, 0))
+      && path_clear end_coord end_coord board (0, 0) 
+        (get_type_space start_coord board) )
 (*checks using pawn rules to see if move is valid TODO: Pawn attacks en pass*)
 let check_knight
     (start_coord : board_coord)
@@ -221,7 +225,8 @@ let check_knight
   let dx, dy = move_dist start_coord end_coord in
   dy + dx = 3
   && Int.abs (dy - dx) = 1
-  && path_clear end_coord end_coord board (dx, dy)
+  && path_clear end_coord end_coord board (dx, dy) 
+    (get_type_space start_coord board) 
 (*\checks using knight rules to see if move is valid*)
 let check_bishop
     (start_coord : board_coord)
@@ -230,14 +235,15 @@ let check_bishop
   let dx, dy = move_dist start_coord end_coord in
   dy = dx && dy > 0
   && path_clear start_coord end_coord board
-       (incr_deriv start_coord end_coord)
+       (incr_deriv start_coord end_coord) (get_type_space start_coord board) 
 (*checks using bishop rules to see if move is valid*)
 let check_king
     (start_coord : board_coord)
     (end_coord : board_coord)
     (board : board) =
   let dx, dy = move_dist start_coord end_coord in
-  (dy > 0 || dx > 0) && path_clear end_coord end_coord board (dx, dy)
+  (dy > 0 || dx > 0) && path_clear end_coord end_coord board (dx, dy) 
+        (get_type_space start_coord board) 
 (*TODO checks using king rules to see if move is valid*)
 let check_rook
     (start_coord : board_coord)
@@ -247,7 +253,7 @@ let check_rook
   ((dx = 0 && dy > 0)
   || (dy = 0 && dx > 0))
      && path_clear start_coord end_coord board
-          (incr_deriv start_coord end_coord)
+          (incr_deriv start_coord end_coord) (get_type_space start_coord board) 
 (*TODO checks using rook rules to see if move is valid*)
 let check_queen
     (start_coord : board_coord)
@@ -266,6 +272,7 @@ let check_castle
   | Piece {player = _; piece_type = 'K'} -> true
   | Piece _ -> false
   | Empty -> false
+  (*TODO checks castling rules to see if move is valid*)
 
   
 let check_coords_in_bounds (coordinate_list: board_coord list)= 
@@ -295,7 +302,8 @@ let make_move
   let s_piece = get_piece_from_space s_space in 
   let moved_board = set_board board (Piece s_piece) end_coord in 
   set_board moved_board Empty
-(**Moves the piece at start_coord to end_coord and replaces the piece at start_coord with empty space*)
+(**Moves the piece at start_coord to end_coord and replaces the piece at 
+  start_coord with empty space*)
 let check_piece_rules
     (start_coord : board_coord)
     (end_coord : board_coord)
@@ -314,15 +322,23 @@ let check_piece_rules
         failwith
           ("Board invariant violated: non-valid piece-type "
          ^ Char.escaped piece_type)
-(**Using the rules for the given piece, returns true iff the given move is legal. Ignores if move puts you in check*)
-let check_move (start_coord: board_coord) (end_coord: board_coord) (board: board)= 
-  if check_coords_in_bounds [start_coord; end_coord] = false then failwith ("Invalid coordinate") else 
+(**Using the rules for the given piece, returns true iff the given move is 
+    legal. Ignores if move puts you in check*)
+let check_move
+    (start_coord : board_coord)
+    (end_coord : board_coord)
+    (board : board) =
+  if check_coords_in_bounds [ start_coord; end_coord ] = false then
+    failwith "Invalid coordinate"
+  else
     let piece = get_space_at_coord start_coord board in
-      match piece with
-      | Empty -> false 
-      | Piece piece-> check_piece_rules start_coord end_coord board piece.piece_type
-(**Checks that the move from the start coordinate to the end coordinate follows the rules of movement 
-for the given piece, ignores putting oneself into check considerations *)
+    match piece with
+    | Empty -> false
+    | Piece piece ->
+        check_piece_rules start_coord end_coord board piece.piece_type
+(**Checks that the move from the start coordinate to the end coordinate 
+follows the rules of movement for the given piece, ignores putting oneself 
+into check considerations *)
 let rec find x lst =
   match lst with
   | [] -> raise (Failure "Not Found")
@@ -372,7 +388,8 @@ let mapMatrix
     else 
       cur_board
   in rec_make_rows board threatened_piece 0 8 []
-(**For each space in matrix returns true iff the piece threatens threatened_piece*)
+(**For each space in matrix returns true iff the piece threatens 
+  threatened_piece*)
 let check_any_true matrix =
   List.mem true (
   List.map (List.mem true) matrix
@@ -419,7 +436,9 @@ let get_piece_type (move: move) =
   move.piece.piece_type
 
 let demo_board = log_board init_board
-let demo start_coord end_coord board = check_move start_coord end_coord (if (List.length board) = 1 then init_board else board)
+let demo start_coord end_coord board =
+  check_move start_coord end_coord
+    (if List.length board = 1 then init_board else board)
 
 (*Gets the piece used in the given move*)
 
