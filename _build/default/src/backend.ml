@@ -159,8 +159,8 @@ let get_space_at_coord (board_coord: board_coord) (board: board) =
 
 let get_type_space coord board =
   match get_space_at_coord coord board with
-  | Piece { piece_type = _; player = x } -> x
-  | _ -> failwith "checking empty coords"
+  | Piece { player = x; piece_type = _ } -> x
+  | Empty -> failwith "checking empty coords"
 
 let move_dist (start_coord : board_coord) (end_coord : board_coord) =
   ( Int.abs
@@ -223,10 +223,10 @@ let check_knight
     (end_coord : board_coord)
     (board : board) =
   let dx, dy = move_dist start_coord end_coord in
-  dy + dx = 3
-  && Int.abs (dy - dx) = 1
-  && path_clear end_coord end_coord board (dx, dy) 
-    (get_type_space start_coord board) 
+  (dy + dx = 3)
+  && (Int.abs (dy - dx) = 1)
+  && (path_clear end_coord end_coord board (dx, dy) 
+    (get_type_space start_coord board) )
 (*\checks using knight rules to see if move is valid*)
 let check_bishop
     (start_coord : board_coord)

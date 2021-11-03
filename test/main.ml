@@ -45,6 +45,10 @@ let init_board_tests =
       { column = 3; row = 7 } { column = 3; row = 6 } false;
   ]
 
+(**Makes a row of empty places for map initialization*)
+let empty_row =
+  [ Empty; Empty; Empty; Empty; Empty; Empty; Empty; Empty ]
+
 let test_board =
   [
     [
@@ -97,6 +101,9 @@ let test_board =
       Empty;
       Empty;
     ];
+    empty_row;
+    empty_row;
+    empty_row;
   ]
 
 (** [index_test name input expected_output] constructs an OUnit test
@@ -110,31 +117,31 @@ let adv_test
   name >:: fun _ ->
   (* the [printer] tells OUnit how to convert the output to a string *)
   assert_equal result
-    (demo start_coord end_coord [ [ Empty ] ])
+    (demo start_coord end_coord test_board)
     ~printer:string_of_bool
 
 let adv_tests =
   [
     adv_test "adv - move of knight from a5 to c4 is valid"
-      { column = 0; row = 4 } { column = 2; row = 3 } true;
+      { column = 0; row = 7 } { column = 2; row = 6 } true;
     adv_test "adv - move of pawn from e2 to f3 is valid"
-      { column = 4; row = 1 } { column = 5; row = 2 } true;
+      { column = 4; row = 4 } { column = 5; row = 5 } true;
     adv_test "adv - move of pawn from f3 to e2 is valid"
-      { column = 5; row = 2 } { column = 4; row = 1 } true;
+      { column = 5; row = 5 } { column = 4; row = 4 } true;
     adv_test "adv - move of pawn from e2 to f2 is invalid"
-      { column = 4; row = 1 } { column = 5; row = 1 } false;
+      { column = 4; row = 4 } { column = 5; row = 4 } false;
     adv_test "adv - move of rook from b2 to b5 is valid"
-      { column = 1; row = 1 } { column = 1; row = 4 } true;
+      { column = 1; row = 4 } { column = 1; row = 7 } true;
     adv_test "adv - move of rook from b2 to e2 is valid"
-      { column = 1; row = 1 } { column = 4; row = 1 } true;
+      { column = 1; row = 4 } { column = 4; row = 4 } true;
     adv_test "adv - move of rook from b2 to c3 is invalid"
-      { column = 1; row = 1 } { column = 2; row = 2 } false;
+      { column = 1; row = 4 } { column = 2; row = 5 } false;
     adv_test "adv - move of bishop from c4 to a2 is valid"
-      { column = 2; row = 3 } { column = 0; row = 1 } true;
+      { column = 2; row = 6 } { column = 0; row = 4 } true;
     adv_test "adv - move of bishop from c4 to e2 is valid"
-      { column = 2; row = 3 } { column = 4; row = 1 } true;
+      { column = 2; row = 6 } { column = 4; row = 4 } true;
     adv_test "adv - move of bishop from c4 to e2 is invalid"
-      { column = 2; row = 3 } { column = 2; row = 2 } false;
+      { column = 2; row = 6 } { column = 2; row = 5 } false;
     adv_test "adv - move of queen from c1 to c4 is valid"
       { column = 2; row = 0 } { column = 2; row = 3 } true;
     adv_test "adv - move of queen from c1 to c3 is valid"
