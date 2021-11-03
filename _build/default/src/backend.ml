@@ -176,6 +176,8 @@ let space_check (coord : board_coord) (board : board) =
 
 let incr_coord coord ((incr_c, incr_r) : index * index) =
   { column = coord.column + incr_c; row = coord.row + incr_r }
+(* increments a board_coord's column and row values by the inputted value 
+  either (-1,0,1)*)
 
 let rec path_clear
     (current : board_coord)
@@ -234,8 +236,10 @@ let check_bishop
   let dx, dy = move_dist start_coord end_coord in
   let incr = incr_deriv start_coord end_coord in
   dy = dx && dy > 0
-  && path_clear (incr_coord start_coord incr) end_coord board
-    incr (get_type_space start_coord board) 
+  && path_clear
+       (incr_coord start_coord incr)
+       end_coord board incr
+       (get_type_space start_coord board)
 (*checks using bishop rules to see if move is valid*)
 let check_king
     (start_coord : board_coord)
@@ -251,10 +255,11 @@ let check_rook
     (board : board) =
   let dx, dy = move_dist start_coord end_coord in
   let incr = incr_deriv start_coord end_coord in
-  ((dx = 0 && dy > 0)
-  || (dy = 0 && dx > 0))
-     && path_clear (incr_coord start_coord incr) end_coord board
-incr (get_type_space start_coord board) 
+  ((dx = 0 && dy > 0) || (dy = 0 && dx > 0))
+  && path_clear
+       (incr_coord start_coord incr)
+       end_coord board incr
+       (get_type_space start_coord board)
 (*TODO checks using rook rules to see if move is valid*)
 let check_queen
     (start_coord : board_coord)
@@ -417,8 +422,6 @@ let player_in_check (player: player)
 let player_in_checkmate(player: player) = 0
 (** TODO*)
       
-
-
 let get_check (move: move) = move.check
 (*True iff the move puts the opponent in check*)
 let get_checkmate (move: move) = move.checkmate
