@@ -1,4 +1,3 @@
 (executable
- (name dispDemo))
-
-; (libraries graphics camlimages.png camlimages.graphics))
+ (name dispDemo)
+ (libraries unix graphics camlimages.png camlimages.graphics))
