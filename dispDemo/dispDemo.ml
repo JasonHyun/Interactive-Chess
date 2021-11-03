@@ -393,12 +393,21 @@ while true do
    done;
 
    match mouse_pos () with (x,y) -> if chkValid x && chkValid y then index x y index1;
-   if !player = 1 then index1 := 63- !index1;
+   if !player = 1 then index1 := 63 - !index1;
 
    while button_down () do
       ()
    done;
+   
+   if !player = 1 then index1 := abs (!index1 - 63);
 
+   draw_rect (Array.get x_order !index1) (Array.get y_order !index1) 50 5;
+   draw_rect (Array.get x_order !index1) (Array.get y_order !index1) 5 50;
+   draw_rect (Array.get x_order !index1) (Array.get y_order !index1 + 45) 50 5;
+   draw_rect (Array.get x_order !index1 + 45) (Array.get y_order !index1) 5 50;
+   
+   if !player = 1 then index1 := abs 63 - !index1;
+   
    while not (button_down ()) do 
       ()
    done;
