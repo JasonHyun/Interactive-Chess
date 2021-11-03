@@ -51,33 +51,16 @@ let empty_row =
 
 let test_board =
   [
-    [
-      Piece { player = White; piece_type = 'N' };
-      Empty;
-      Empty;
-      Empty;
-      Empty;
-      Empty;
-      Empty;
-      Empty;
-    ];
+    empty_row;
+    empty_row;
+    empty_row;
     [
       Empty;
       Empty;
-      Piece { player = Black; piece_type = 'B' };
+      Piece { player = White; piece_type = 'Q' };
       Empty;
       Empty;
       Empty;
-      Empty;
-      Empty;
-    ];
-    [
-      Empty;
-      Empty;
-      Empty;
-      Empty;
-      Piece { player = White; piece_type = 'K' };
-      Piece { player = Black; piece_type = 'P' };
       Empty;
       Empty;
     ];
@@ -94,16 +77,33 @@ let test_board =
     [
       Empty;
       Empty;
-      Piece { player = White; piece_type = 'Q' };
+      Empty;
+      Empty;
+      Piece { player = White; piece_type = 'K' };
+      Piece { player = Black; piece_type = 'P' };
+      Empty;
+      Empty;
+    ];
+    [
+      Empty;
+      Empty;
+      Piece { player = Black; piece_type = 'B' };
       Empty;
       Empty;
       Empty;
       Empty;
       Empty;
     ];
-    empty_row;
-    empty_row;
-    empty_row;
+    [
+      Piece { player = White; piece_type = 'N' };
+      Empty;
+      Empty;
+      Empty;
+      Empty;
+      Empty;
+      Empty;
+      Empty;
+    ];
   ]
 
 (** [index_test name input expected_output] constructs an OUnit test
@@ -136,20 +136,20 @@ let adv_tests =
       { column = 1; row = 4 } { column = 4; row = 4 } true;
     adv_test "adv - move of rook from b2 to c3 is invalid"
       { column = 1; row = 4 } { column = 2; row = 5 } false;
-    adv_test "adv - move of bishop from c4 to a2 is valid"
+    adv_test "adv - move of bishop from c7 to a5 is valid"
       { column = 2; row = 6 } { column = 0; row = 4 } true;
-    adv_test "adv - move of bishop from c4 to e2 is valid"
+    adv_test "adv - move of bishop from c7 to e5 is valid"
       { column = 2; row = 6 } { column = 4; row = 4 } true;
     adv_test "adv - move of bishop from c4 to e2 is invalid"
       { column = 2; row = 6 } { column = 2; row = 5 } false;
     adv_test "adv - move of queen from c1 to c4 is valid"
-      { column = 2; row = 0 } { column = 2; row = 3 } true;
+      { column = 2; row = 3 } { column = 2; row = 3 } true;
     adv_test "adv - move of queen from c1 to c3 is valid"
-      { column = 2; row = 0 } { column = 2; row = 2 } true;
+      { column = 2; row = 3 } { column = 2; row = 2 } true;
     adv_test "adv - move of queen from c1 to b2 is valid"
-      { column = 2; row = 0 } { column = 1; row = 1 } true;
+      { column = 2; row = 3 } { column = 1; row = 1 } true;
     adv_test "adv -   move of queen from c1 to b2 is valid"
-      { column = 2; row = 0 } { column = 3; row = 1 } true;
+      { column = 2; row = 3 } { column = 3; row = 1 } true;
   ]
 
 let tests =

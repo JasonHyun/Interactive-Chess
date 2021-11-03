@@ -174,6 +174,8 @@ let space_check (coord : board_coord) (board : board) =
   get_piece_type_from_space tile
 (** returns piece color at a given coordinate, if empty returns space *)
 
+let incr_coord coord ((incr_c, incr_r) : index * index) =
+  { column = coord.column + incr_c; row = coord.row + incr_r }
 
 let rec path_clear
     (current : board_coord)
@@ -182,15 +184,12 @@ let rec path_clear
     ((incr_c, incr_r) : index * index)
     (source : player) =
   if current = finish then
-    if get_space_at_coord finish board = Empty then true 
-      else (get_type_space finish board) <> source
+    if get_space_at_coord finish board = Empty then true
+    else get_type_space finish board <> source
   else
     space_check current board = ' '
     && path_clear
-         {
-           column = current.column + incr_c;
-           row = current.row + incr_r;
-         }
+         (incr_coord current (incr_c, incr_r))
          finish board (incr_c, incr_r) source
 (** checks for a linear path from start to end that no other pieces are
     in the way on that path *)
@@ -233,9 +232,10 @@ let check_bishop
     (end_coord : board_coord)
     (board : board) =
   let dx, dy = move_dist start_coord end_coord in
+  let incr = incr_deriv start_coord end_coord in
   dy = dx && dy > 0
-  && path_clear start_coord end_coord board
-       (incr_deriv start_coord end_coord) (get_type_space start_coord board) 
+  && path_clear (incr_coord start_coord incr) end_coord board
+    incr (get_type_space start_coord board) 
 (*checks using bishop rules to see if move is valid*)
 let check_king
     (start_coord : board_coord)
@@ -250,10 +250,11 @@ let check_rook
     (end_coord : board_coord)
     (board : board) =
   let dx, dy = move_dist start_coord end_coord in
+  let incr = incr_deriv start_coord end_coord in
   ((dx = 0 && dy > 0)
   || (dy = 0 && dx > 0))
-     && path_clear start_coord end_coord board
-          (incr_deriv start_coord end_coord) (get_type_space start_coord board) 
+     && path_clear (incr_coord start_coord incr) end_coord board
+incr (get_type_space start_coord board) 
 (*TODO checks using rook rules to see if move is valid*)
 let check_queen
     (start_coord : board_coord)
