@@ -140,16 +140,16 @@ let adv_tests =
       { column = 2; row = 6 } { column = 0; row = 4 } true;
     adv_test "adv - move of bishop from c7 to e5 is valid"
       { column = 2; row = 6 } { column = 4; row = 4 } true;
-    adv_test "adv - move of bishop from c4 to e2 is invalid"
+    adv_test "adv - move of bishop from c7 to c6 is invalid"
       { column = 2; row = 6 } { column = 2; row = 5 } false;
-    adv_test "adv - move of queen from c1 to c4 is valid"
-      { column = 2; row = 3 } { column = 2; row = 3 } true;
-    adv_test "adv - move of queen from c1 to c3 is valid"
-      { column = 2; row = 3 } { column = 2; row = 2 } true;
-    adv_test "adv - move of queen from c1 to b2 is valid"
-      { column = 2; row = 3 } { column = 1; row = 1 } true;
-    adv_test "adv -   move of queen from c1 to b2 is valid"
-      { column = 2; row = 3 } { column = 3; row = 1 } true;
+    adv_test "adv - move of queen from c4 to c7 is valid"
+      { column = 2; row = 3 } { column = 2; row = 6 } true;
+    adv_test "adv - move of queen from c4 to c2 is valid"
+      { column = 2; row = 3 } { column = 2; row = 1 } true;
+    adv_test "adv - move of queen from c4 to b5 is valid"
+      { column = 2; row = 3 } { column = 1; row = 4 } true;
+    adv_test "adv - move of queen from c4 to b2 is valid"
+      { column = 2; row = 3 } { column = 0; row = 1 } true;
   ]
 
 let tests =
