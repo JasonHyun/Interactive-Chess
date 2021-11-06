@@ -310,6 +310,7 @@ let make_move
   set_board moved_board Empty
 (**Moves the piece at start_coord to end_coord and replaces the piece at 
   start_coord with empty space*)
+  
 let check_piece_rules
     (start_coord : board_coord)
     (end_coord : board_coord)
@@ -330,6 +331,7 @@ let check_piece_rules
          ^ Char.escaped piece_type)
 (**Using the rules for the given piece, returns true iff the given move is 
     legal. Ignores if move puts you in check*)
+
 let check_move
     (start_coord : board_coord)
     (end_coord : board_coord)
@@ -345,6 +347,7 @@ let check_move
 (**Checks that the move from the start coordinate to the end coordinate 
 follows the rules of movement for the given piece, ignores putting oneself 
 into check considerations *)
+
 let rec find x lst =
   match lst with
   | [] -> raise (Failure "Not Found")

@@ -91,8 +91,8 @@ let make_rest (player: player)=
   make_pieces player ['R';'N';'B';'Q';'K';'B';'N';'R']
 (**Creates a row that contains the starting non-pawn pieces for the given player*)
 let init_board = 
-  [make_rest Black; make_pawns Black; empty_row; empty_row; 
-  empty_row; empty_row; make_pawns White; make_rest White; ]
+  [make_rest White; make_pawns White; empty_row; empty_row; 
+  empty_row; empty_row; make_pawns Black; make_rest Black; ]
 (**Initializes the state of a board at the start of the game of chess*)
 
 let get_piece_from_space (space: space) =
@@ -361,9 +361,6 @@ let find_king_coords(board: board)
     {column= column_index; row = row_index }
 (** Returns the board_coords of the given player's king on the given board*)
   
-
-
-
 let mapMatrix 
   (threatened_piece: board_coord)
   (board: board) = 
@@ -406,18 +403,40 @@ let get_opposite_color (player: player) =
   | White -> Black
   | Black -> White
 (**Negates the given color*)
-let check_threatened_king (king_coords: board_coord)
+let check_threatened_piece (piece_coords: board_coord)
   (board: board) =
-    let mapped_matrix = mapMatrix king_coords board in 
+    let mapped_matrix = mapMatrix piece_coords board in 
     check_any_true mapped_matrix
 (**Checks if king at given coords is in Check*)
 let player_in_check (player: player) 
   (board: board) =
   let king_coords = find_king_coords board player in 
-    check_threatened_king king_coords board
-  
-      
-  (**Returns true iff the given player is in check*)
+    check_threatened_piece king_coords board
+(** Returns true iff the given player is in check*)
+let all_possible_coords =
+  let empty_list= ref [] in 
+    for i = 0 to 7 do 
+      for j = 0 to 7 do 
+       empty_list := !empty_list @ [{row= i; column= j}]
+      done
+   done;
+  !empty_list
+(**Returns a list of all possible coordinates. Useful helper method for many places*)
+
+let viable_move_coords (start_coord: board_coord) (board: board) =
+  let intermediate_check_move (board: board) (start_coord: board_coord) (end_coord:board_coord) =
+    check_move start_coord end_coord board in 
+  List.filter (intermediate_check_move board start_coord) all_possible_coords 
+(**Returns all the viable moves for the given piece in the given board state*)
+
+let player_in_checkmate(player: player) (board: board) = 
+  let king_coords = find_king_coords board player in 
+    let move_coords = viable_move_coords king_coords board in 
+      let altered_order_threatened (board:board) (piece: board_coord) =
+        check_threatened_piece piece board in 
+      let viable_moves = List.filter  (altered_order_threatened board) (move_coords@[king_coords]) in 
+      if List.length viable_moves > 0 then false else true
+(**Returns true iff the given player is in checkmate on the given board*)
     
 let player_in_checkmate(player: player) = 0
 (** TODO*)
