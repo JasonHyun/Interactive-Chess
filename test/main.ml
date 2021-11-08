@@ -52,7 +52,16 @@ let empty_row =
 let test_board =
   [
     empty_row;
-    empty_row;
+    [
+      Empty;
+      Empty;
+      Empty;
+      Empty;
+      Empty;
+      Empty;
+      Empty;
+      Piece { player = White; piece_type = 'P' };
+    ];
     empty_row;
     [
       Empty;
@@ -61,8 +70,8 @@ let test_board =
       Empty;
       Empty;
       Empty;
-      Empty;
-      Empty;
+      Piece { player = White; piece_type = 'P' };
+      Piece { player = Black; piece_type = 'R' };
     ];
     [
       Empty;
@@ -86,7 +95,7 @@ let test_board =
     ];
     [
       Empty;
-      Empty;
+      Piece { player = Black; piece_type = 'P' };
       Piece { player = Black; piece_type = 'B' };
       Empty;
       Empty;
@@ -122,19 +131,27 @@ let adv_test
 
 let adv_tests =
   [
-    adv_test "adv - move of knight from a5 to c4 is valid"
+    adv_test "adv - move of knight from a8 to c7 is valid"
       { column = 0; row = 7 } { column = 2; row = 6 } true;
-    adv_test "adv - move of pawn from e2 to f3 is valid"
+    adv_test "adv - move of pawn from e5 to f6 is valid"
       { column = 4; row = 4 } { column = 5; row = 5 } true;
-    adv_test "adv - move of pawn from f3 to e2 is valid"
+    adv_test "adv - move of pawn from f6 to e5 is valid"
       { column = 5; row = 5 } { column = 4; row = 4 } true;
-    adv_test "adv - move of pawn from e2 to f2 is invalid"
+    adv_test "adv - move of pawn from e5 to f5 is invalid"
       { column = 4; row = 4 } { column = 5; row = 4 } false;
-    adv_test "adv - move of rook from b2 to b5 is valid"
-      { column = 1; row = 4 } { column = 1; row = 7 } true;
-    adv_test "adv - move of rook from b2 to e2 is valid"
+    adv_test "adv - move of pawn from f6 to f4 is invalid"
+      { column = 5; row = 5 } { column = 5; row = 3 } false;
+    adv_test "adv - move of pawn from g4 to g6 is invalid"
+      { column = 6; row = 3 } { column = 6; row = 5 } false;
+    adv_test "adv - move of pawn from b7 to b5 is invalid"
+      { column = 1; row = 6 } { column = 1; row = 4 } false;
+    adv_test "adv - move of pawn from h2 to h4 is invalid"
+      { column = 7; row = 1 } { column = 7; row = 3 } false;
+    adv_test "adv - move of rook from b5 to b0 is valid"
+      { column = 1; row = 4 } { column = 1; row = 0 } true;
+    adv_test "adv - move of rook from b5 to e5 is valid"
       { column = 1; row = 4 } { column = 4; row = 4 } true;
-    adv_test "adv - move of rook from b2 to c3 is invalid"
+    adv_test "adv - move of rook from b5 to c6 is invalid"
       { column = 1; row = 4 } { column = 2; row = 5 } false;
     adv_test "adv - move of bishop from c7 to a5 is valid"
       { column = 2; row = 6 } { column = 0; row = 4 } true;
@@ -148,7 +165,7 @@ let adv_tests =
       { column = 2; row = 3 } { column = 2; row = 1 } true;
     adv_test "adv - move of queen from c4 to b5 is valid"
       { column = 2; row = 3 } { column = 1; row = 4 } true;
-    adv_test "adv - move of queen from c4 to b2 is valid"
+    adv_test "adv - move of queen from c4 to a2 is valid"
       { column = 2; row = 3 } { column = 0; row = 1 } true;
   ]
 
