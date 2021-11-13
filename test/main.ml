@@ -139,6 +139,8 @@ let adv_tests =
       { column = 5; row = 5 } { column = 4; row = 4 } true;
     adv_test "adv - move of pawn from e5 to f5 is invalid"
       { column = 4; row = 4 } { column = 5; row = 4 } false;
+    adv_test "adv - move of pawn from e5 to e6 is invalid"
+      { column = 4; row = 4 } { column = 4; row = 5 } false;
     adv_test "adv - move of pawn from f6 to f4 is invalid"
       { column = 5; row = 5 } { column = 5; row = 3 } false;
     adv_test "adv - move of pawn from g4 to g6 is invalid"

@@ -239,8 +239,8 @@ let check_pawn
   && (end_coord.row - start_coord.row = dir * 1
      || end_coord.row - start_coord.row = dir * 2
         && ((dir = -1 && start_coord.row = 6)
-           || (dir = 1 && start_coord.row = 1))
-        && space_check end_coord board = ' ')
+           || (dir = 1 && start_coord.row = 1)))
+  && space_check end_coord board = ' '
   || dx = 1
      && end_coord.row - start_coord.row = dir * 1
      && path_clear end_coord end_coord board (0, 0)

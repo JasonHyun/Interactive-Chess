@@ -1,10 +1,10 @@
 # dune exec test/main.exe
 # OCAMLPARAM: unset
 # Workspace root: /home/vk262/3110/3110chess
-$ /usr/bin/nproc > /tmp/dunec5bc37.output 2> /dev/null
+$ /usr/bin/nproc > /tmp/dunea76e54.output 2> /dev/null
 # Auto-detected concurrency: 4
 # disable binary cache
-$ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/duned836de.output
+$ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/duned517bb.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -112,6 +112,7 @@ $ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/duned836de.outpu
 #      }
 #  }
 # Workspace root: /home/vk262/3110/3110chess
-$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -bin-annot -I test/.main.eobjs/byte -I /home/vk262/.opam/cs3110-2021fa/lib/bytes -I /home/vk262/.opam/cs3110-2021fa/lib/ounit2 -I /home/vk262/.opam/cs3110-2021fa/lib/ounit2/advanced -I /home/vk262/.opam/cs3110-2021fa/lib/stdlib-shims -I src/.chess.objs/byte -no-alias-deps -opaque -o test/.main.eobjs/byte/dune__exe__Main.cmo -c -impl test/main.ml)
-$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I test/.main.eobjs/byte -I test/.main.eobjs/native -I /home/vk262/.opam/cs3110-2021fa/lib/bytes -I /home/vk262/.opam/cs3110-2021fa/lib/ounit2 -I /home/vk262/.opam/cs3110-2021fa/lib/ounit2/advanced -I /home/vk262/.opam/cs3110-2021fa/lib/stdlib-shims -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -o test/.main.eobjs/native/dune__exe__Main.cmx -c -impl test/main.ml)
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -impl src/backend.ml) > _build/default/src/.chess.objs/backend.ml.d
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/native/chess__Backend.cmx -c -impl src/backend.ml)
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -a -o src/chess.cmxa src/.chess.objs/native/chess.cmx src/.chess.objs/native/chess__Backend.cmx src/.chess.objs/native/chess__Authors.cmx)
 $ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -o test/main.exe src/chess.cmxa /home/vk262/.opam/cs3110-2021fa/lib/ocaml/unix.cmxa -I /home/vk262/.opam/cs3110-2021fa/lib/ocaml /home/vk262/.opam/cs3110-2021fa/lib/stdlib-shims/stdlib_shims.cmxa /home/vk262/.opam/cs3110-2021fa/lib/ounit2/advanced/oUnitAdvanced.cmxa /home/vk262/.opam/cs3110-2021fa/lib/ounit2/oUnit.cmxa test/.main.eobjs/native/dune__exe__Main.cmx)
