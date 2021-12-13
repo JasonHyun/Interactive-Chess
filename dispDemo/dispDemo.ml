@@ -230,151 +230,15 @@ let current_board =
     rdt;
   |]
 
-(*x coordinates*)
-let x_order =
-  [|
-    5;
-    55;
-    105;
-    155;
-    205;
-    255;
-    305;
-    355;
-    5;
-    55;
-    105;
-    155;
-    205;
-    255;
-    305;
-    355;
-    5;
-    55;
-    105;
-    155;
-    205;
-    255;
-    305;
-    355;
-    5;
-    55;
-    105;
-    155;
-    205;
-    255;
-    305;
-    355;
-    5;
-    55;
-    105;
-    155;
-    205;
-    255;
-    305;
-    355;
-    5;
-    55;
-    105;
-    155;
-    205;
-    255;
-    305;
-    355;
-    5;
-    55;
-    105;
-    155;
-    205;
-    255;
-    305;
-    355;
-    5;
-    55;
-    105;
-    155;
-    205;
-    255;
-    305;
-    355;
-  |]
-
-(*y coordinates*)
-let y_order =
-  [|
-    5;
-    5;
-    5;
-    5;
-    5;
-    5;
-    5;
-    5;
-    55;
-    55;
-    55;
-    55;
-    55;
-    55;
-    55;
-    55;
-    105;
-    105;
-    105;
-    105;
-    105;
-    105;
-    105;
-    105;
-    155;
-    155;
-    155;
-    155;
-    155;
-    155;
-    155;
-    155;
-    205;
-    205;
-    205;
-    205;
-    205;
-    205;
-    205;
-    205;
-    255;
-    255;
-    255;
-    255;
-    255;
-    255;
-    255;
-    255;
-    305;
-    305;
-    305;
-    305;
-    305;
-    305;
-    305;
-    305;
-    355;
-    355;
-    355;
-    355;
-    355;
-    355;
-    355;
-    355;
-  |]
-
 (*draw view for player on light side*)
 let draw_dt current_board =
   Graphics.draw_image board 5 5;
   for i = 0 to 63 do
     let a = Array.get current_board (63 - i) in
-    let x = Array.get x_order i in
-    let y = Array.get y_order i in
+    (* let x = Array.get x_order i in *)
+    (* let y = Array.get y_order i in *)
+    let x = ((i mod 8 ) * 50 + 5) in 
+    let y = ((i / 8) * 50 + 5) in
     Graphics.draw_image a x y
   done
 
@@ -383,8 +247,10 @@ let draw_lt current_board =
   Graphics.draw_image board 5 5;
   for i = 0 to 63 do
     let a = Array.get current_board i in
-    let x = Array.get x_order i in
-    let y = Array.get y_order i in
+    (* let x = Array.get x_order i in
+    let y = Array.get y_order i in *)
+    let x = ((i mod 8 ) * 50 + 5) in 
+    let y = ((i / 8) * 50 + 5) in
     Graphics.draw_image a x y
   done
 ;;
@@ -409,21 +275,31 @@ while true do
 
       if !player = 1 then index1 := abs (!index1 - 63);
 
+      (* let x = ((i mod 8 ) * 5 + 5) in 
+      let y = ((i / 8) * 50 + 5) in *)
       draw_rect
-        (Array.get x_order !index1)
-        (Array.get y_order !index1)
+        ((!index1 mod 8) * 50 + 5)
+        ((!index1 / 8) * 50 + 5)
+        (* (Array.get x_order !index1)
+        (Array.get y_order !index1) *)
         50 5;
       draw_rect
-        (Array.get x_order !index1)
-        (Array.get y_order !index1)
+        ((!index1 mod 8) * 50 + 5)
+        ((!index1 / 8) * 50 + 5)
+        (* (Array.get x_order !index1)
+        (Array.get y_order !index1) *)
         5 50;
       draw_rect
-        (Array.get x_order !index1)
-        (Array.get y_order !index1 + 45)
+        ((!index1 mod 8) * 50 + 5)
+        ((!index1 / 8) * 50 + 50)
+        (* (Array.get x_order !index1)
+        (Array.get y_order !index1 + 45) *)
         50 5;
       draw_rect
-        (Array.get x_order !index1 + 45)
-        (Array.get y_order !index1)
+        ((!index1 mod 8) * 50 + 50)
+        ((!index1 / 8) * 50 + 5)
+        (* (Array.get x_order !index1 + 45)
+        (Array.get y_order !index1) *)
         5 50;
 
       (*log + coord update 1*)

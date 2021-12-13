@@ -1,10 +1,10 @@
-# dune exec dispDemo/dispDemo.exe
+# dune exec test/main.exe
 # OCAMLPARAM: unset
-# Workspace root: /Users/jeongwoohyun/cs3110/3110chess
-$ /usr/bin/getconf _NPROCESSORS_ONLN > /var/folders/fb/pf179m2x0tvcp2g5ct_7p0_40000gn/T/dunec6d11c.output 2> /dev/null
-# Auto-detected concurrency: 8
+# Workspace root: /home/vk262/3110/3110chess
+$ /usr/bin/nproc > /tmp/dunea76e54.output 2> /dev/null
+# Auto-detected concurrency: 4
 # disable binary cache
-$ /Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlc.opt -config > /var/folders/fb/pf179m2x0tvcp2g5ct_7p0_40000gn/T/dune192425.output
+$ /home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/duned517bb.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -14,77 +14,72 @@ $ /Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlc.opt -config > /var/folders/
 #  ; fdo_target_exe = None
 #  ; build_dir = "default"
 #  ; toplevel_path =
-#      Some External "/Users/jeongwoohyun/.opam/cs3100-2021fa/lib/toplevel"
-#  ; ocaml_bin = External "/Users/jeongwoohyun/.opam/cs3100-2021fa/bin"
-#  ; ocaml = Ok External "/Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocaml"
-#  ; ocamlc = External "/Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlc.opt"
-#  ; ocamlopt =
-#      Ok External "/Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlopt.opt"
-#  ; ocamldep =
-#      Ok External "/Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamldep.opt"
+#      Some External "/home/vk262/.opam/cs3110-2021fa/lib/toplevel"
+#  ; ocaml_bin = External "/home/vk262/.opam/cs3110-2021fa/bin"
+#  ; ocaml = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocaml"
+#  ; ocamlc = External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamldep.opt"
 #  ; ocamlmklib =
-#      Ok External "/Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlmklib.opt"
+#      Ok External "/home/vk262/.opam/cs3110-2021fa/bin/ocamlmklib.opt"
 #  ; env =
 #      map
-#        { "DUNE_OCAML_HARDCODED" :
-#            "/Users/jeongwoohyun/.opam/cs3100-2021fa/lib"
-#        ; "DUNE_OCAML_STDLIB" :
-#            "/Users/jeongwoohyun/.opam/cs3100-2021fa/lib/ocaml"
-#        ; "DUNE_SOURCEROOT" : "/Users/jeongwoohyun/cs3110/3110chess"
-#        ; "INSIDE_DUNE" :
-#            "/Users/jeongwoohyun/cs3110/3110chess/_build/default"
-#        ; "MANPATH" :
-#            "/Users/jeongwoohyun/cs3110/3110chess/_build/install/default/bin"
+#        { "DUNE_OCAML_HARDCODED" : "/home/vk262/.opam/cs3110-2021fa/lib"
+#        ; "DUNE_OCAML_STDLIB" : "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
+#        ; "DUNE_SOURCEROOT" : "/home/vk262/3110/3110chess"
+#        ; "INSIDE_DUNE" : "/home/vk262/3110/3110chess/_build/default"
 #        ; "OCAMLFIND_IGNORE_DUPS_IN" :
-#            "/Users/jeongwoohyun/cs3110/3110chess/_build/install/default/lib"
+#            "/home/vk262/3110/3110chess/_build/install/default/lib"
 #        ; "OCAMLPATH" :
-#            "/Users/jeongwoohyun/cs3110/3110chess/_build/install/default/lib"
+#            "/home/vk262/3110/3110chess/_build/install/default/lib"
 #        ; "OCAMLTOP_INCLUDE_PATH" :
-#            "/Users/jeongwoohyun/cs3110/3110chess/_build/install/default/lib/toplevel"
+#            "/home/vk262/3110/3110chess/_build/install/default/lib/toplevel"
 #        ; "OCAML_COLOR" : "always"
 #        ; "OPAMCOLOR" : "always"
 #        }
-#  ; findlib_path = [ External "/Users/jeongwoohyun/.opam/cs3100-2021fa/lib" ]
+#  ; findlib_path = [ External "/home/vk262/.opam/cs3110-2021fa/lib" ]
 #  ; arch_sixtyfour = true
 #  ; natdynlink_supported = true
 #  ; supports_shared_libraries = true
 #  ; ocaml_config =
 #      { version = "4.12.0"
-#      ; standard_library_default =
-#          "/Users/jeongwoohyun/.opam/cs3100-2021fa/lib/ocaml"
-#      ; standard_library = "/Users/jeongwoohyun/.opam/cs3100-2021fa/lib/ocaml"
+#      ; standard_library_default = "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
+#      ; standard_library = "/home/vk262/.opam/cs3110-2021fa/lib/ocaml"
 #      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
 #      ; ccomp_type = "cc"
-#      ; c_compiler = "cc"
-#      ; ocamlc_cflags = [ "-O2"; "-fno-strict-aliasing"; "-fwrapv" ]
+#      ; c_compiler = "gcc"
+#      ; ocamlc_cflags = [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-fPIC" ]
 #      ; ocamlc_cppflags = [ "-D_FILE_OFFSET_BITS=64"; "-D_REENTRANT" ]
-#      ; ocamlopt_cflags = [ "-O2"; "-fno-strict-aliasing"; "-fwrapv" ]
+#      ; ocamlopt_cflags =
+#          [ "-O2"; "-fno-strict-aliasing"; "-fwrapv"; "-fPIC" ]
 #      ; ocamlopt_cppflags = [ "-D_FILE_OFFSET_BITS=64"; "-D_REENTRANT" ]
 #      ; bytecomp_c_compiler =
-#          [ "cc"
+#          [ "gcc"
 #          ; "-O2"
 #          ; "-fno-strict-aliasing"
 #          ; "-fwrapv"
+#          ; "-fPIC"
 #          ; "-D_FILE_OFFSET_BITS=64"
 #          ; "-D_REENTRANT"
 #          ]
-#      ; bytecomp_c_libraries = [ "-lm"; "-lpthread" ]
+#      ; bytecomp_c_libraries = [ "-lm"; "-ldl"; "-lpthread" ]
 #      ; native_c_compiler =
-#          [ "cc"
+#          [ "gcc"
 #          ; "-O2"
 #          ; "-fno-strict-aliasing"
 #          ; "-fwrapv"
+#          ; "-fPIC"
 #          ; "-D_FILE_OFFSET_BITS=64"
 #          ; "-D_REENTRANT"
 #          ]
-#      ; native_c_libraries = [ "-lm" ]
+#      ; native_c_libraries = [ "-lm"; "-ldl" ]
 #      ; cc_profile = []
 #      ; architecture = "amd64"
 #      ; model = "default"
 #      ; int_size = 63
 #      ; word_size = 64
-#      ; system = "macosx"
-#      ; asm = [ "clang"; "-arch"; "x86_64"; "-Wno-trigraphs"; "-c" ]
+#      ; system = "linux"
+#      ; asm = [ "as" ]
 #      ; asm_cfi_supported = true
 #      ; with_frame_pointers = false
 #      ; ext_exe = ""
@@ -95,8 +90,8 @@ $ /Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlc.opt -config > /var/folders/
 #      ; os_type = "Unix"
 #      ; default_executable_name = "a.out"
 #      ; systhread_supported = true
-#      ; host = "x86_64-apple-darwin20.6.0"
-#      ; target = "x86_64-apple-darwin20.6.0"
+#      ; host = "x86_64-pc-linux-gnu"
+#      ; target = "x86_64-pc-linux-gnu"
 #      ; profiling = false
 #      ; flambda = false
 #      ; spacetime = false
@@ -116,7 +111,8 @@ $ /Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlc.opt -config > /var/folders/
 #      ; windows_unicode = false
 #      }
 #  }
-# Workspace root: /Users/jeongwoohyun/cs3110/3110chess
-$ (cd _build/default && /Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlc.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -bin-annot -I dispDemo/.dispDemo.eobjs/byte -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/core -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/graphics -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/png -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/graphics -no-alias-deps -opaque -o dispDemo/.dispDemo.eobjs/byte/dune__exe__DispDemo.cmo -c -impl dispDemo/dispDemo.ml)
-$ (cd _build/default && /Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I dispDemo/.dispDemo.eobjs/byte -I dispDemo/.dispDemo.eobjs/native -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/core -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/graphics -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/png -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/graphics -intf-suffix .ml -no-alias-deps -opaque -o dispDemo/.dispDemo.eobjs/native/dune__exe__DispDemo.cmx -c -impl dispDemo/dispDemo.ml)
-$ (cd _build/default && /Users/jeongwoohyun/.opam/cs3100-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -o dispDemo/dispDemo.exe /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/ocaml/unix.cmxa -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/ocaml /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/graphics/graphics.cmxa -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/graphics /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/core/camlimages.cmxa /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/png/camlimages_png.cmxa -I /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/png /Users/jeongwoohyun/.opam/cs3100-2021fa/lib/camlimages/graphics/camlimages_graphics.cmxa dispDemo/.dispDemo.eobjs/native/dune__exe__DispDemo.cmx)
+# Workspace root: /home/vk262/3110/3110chess
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamldep.opt -modules -impl src/backend.ml) > _build/default/src/.chess.objs/backend.ml.d
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/native/chess__Backend.cmx -c -impl src/backend.ml)
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -a -o src/chess.cmxa src/.chess.objs/native/chess.cmx src/.chess.objs/native/chess__Backend.cmx src/.chess.objs/native/chess__Authors.cmx)
+$ (cd _build/default && /home/vk262/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -o test/main.exe src/chess.cmxa /home/vk262/.opam/cs3110-2021fa/lib/ocaml/unix.cmxa -I /home/vk262/.opam/cs3110-2021fa/lib/ocaml /home/vk262/.opam/cs3110-2021fa/lib/stdlib-shims/stdlib_shims.cmxa /home/vk262/.opam/cs3110-2021fa/lib/ounit2/advanced/oUnitAdvanced.cmxa /home/vk262/.opam/cs3110-2021fa/lib/ounit2/oUnit.cmxa test/.main.eobjs/native/dune__exe__Main.cmx)

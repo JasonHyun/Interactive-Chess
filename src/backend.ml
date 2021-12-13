@@ -253,8 +253,8 @@ let check_knight
   && Int.abs (dy - dx) = 1
   && path_clear end_coord end_coord board (dx, dy)
        (get_type_space start_coord board)
-
 (*\checks using knight rules to see if move is valid*)
+
 let check_bishop
     (start_coord : board_coord)
     (end_coord : board_coord)
@@ -268,6 +268,7 @@ let check_bishop
        (get_type_space start_coord board)
 
 (*checks using bishop rules to see if move is valid*)
+
 let check_king
     (start_coord : board_coord)
     (end_coord : board_coord)
@@ -276,8 +277,8 @@ let check_king
   (dy > 0 || dx > 0)
   && path_clear end_coord end_coord board (dx, dy)
        (get_type_space start_coord board)
-
 (*TODO checks using king rules to see if move is valid*)
+
 let check_rook
     (start_coord : board_coord)
     (end_coord : board_coord)
@@ -291,6 +292,7 @@ let check_rook
        (get_type_space start_coord board)
 
 (*TODO checks using rook rules to see if move is valid*)
+
 let check_queen
     (start_coord : board_coord)
     (end_coord : board_coord)

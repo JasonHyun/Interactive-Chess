@@ -34,7 +34,8 @@ type check = bool
 
 type checkmate = bool
 
-(** True iff the move places the opposing player in checkmate*)
+(*Below are the methods I suspect will be most useful to the front end
+  team*)
 
 (* added for the purpose of demoing, not for final product*)
 
