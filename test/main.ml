@@ -12,7 +12,7 @@ let init_board_test
   name >:: fun _ ->
   (* the [printer] tells OUnit how to convert the output to a string *)
   assert_equal result
-    (demo start_coord end_coord [ [ Empty ] ])
+    (demo start_coord end_coord empty_board)
     ~printer:string_of_bool
 
 (* You will find it helpful to write functions like [make_index_test]
