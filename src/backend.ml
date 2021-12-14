@@ -561,7 +561,7 @@ let get_piece (game : game) (coordinate : coordinate) =
   failwith "Unimplemented"
 (*Returns the type of piece at the given coordinate*)
 
-let get_log (game : game) = game.log
+let get_log (game : game) = List.map move_to_string game.log
 (*Returns a list of all of the moves taken in chronological ordering*)
 
 let player_makes_move (game : game) (move : move) =
