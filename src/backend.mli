@@ -59,6 +59,8 @@ type game
 
 val empty_board : board
 
+val start_game : game
+
 val demo : board_coord -> board_coord -> board -> checkmate
 
 val demo_board : string list

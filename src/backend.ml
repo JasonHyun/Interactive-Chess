@@ -146,8 +146,10 @@ let log_row (row : space list) =
 let log_board (game : game) = List.map log_row game.board
 
 let init_game = { board = init_board; log = [] }
+
 (*Initializes the board to the correct opening state, sets players' time
   as well *)
+let start_game = init_game
 
 (** Maps the column character to an index to be used when indexing rows*)
 let col_to_index (column : column) =
@@ -566,4 +568,3 @@ let get_log (game : game) = List.map move_to_string game.log
 
 let player_makes_move (game : game) (move : move) =
   failwith "Unimplemented"
-(*Returns a list of all of the moves taken in chronological ordering*)
