@@ -2,6 +2,7 @@ open Images
 open Rgba32
 open Graphics
 open Unix
+open Chess
 
 let () = Graphics.open_graph " 1000x600";;
 

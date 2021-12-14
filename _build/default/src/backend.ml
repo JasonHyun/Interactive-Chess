@@ -229,9 +229,11 @@ let incr_deriv (start_coord : board_coord) (end_coord : board_coord) =
 let check_pawn
     (start_coord : board_coord)
     (end_coord : board_coord)
-    (board : board) =
+    (game : game) =
   let dx, dy = move_dist start_coord end_coord in
-  let dir = if space_check start_coord board = 'P' then 1 else -1 in
+  let dir =
+    if space_check start_coord game.board = 'P' then 1 else -1
+  in
   dx = 0
   && (end_coord.row - start_coord.row = dir * 1
      || end_coord.row - start_coord.row = dir * 2
@@ -239,8 +241,8 @@ let check_pawn
            || (dir = 1 && start_coord.row = 1)))
   || dx = 1
      && end_coord.row - start_coord.row = dir * 1
-     && path_clear end_coord end_coord board (0, 0)
-          (get_type_space start_coord board)
+     && path_clear end_coord end_coord game.board (0, 0)
+          (get_type_space start_coord game.board)
 
 (*checks using pawn rules to see if move is valid TODO: Pawn attacks en
   pass*)
@@ -348,24 +350,27 @@ let make_move
       checkmate = true;
     }
   in
-  { board = set_board moved_board Empty; log = new_move :: game.log }
+  {
+    board = set_board moved_board Empty start_coord;
+    log = new_move :: game.log;
+  }
 
 (**Using the rules for the given piece, returns true iff the given move
    is legal. Ignores if move puts you in check*)
 let check_piece_rules
     (start_coord : board_coord)
     (end_coord : board_coord)
-    (board : board)
+    (game : game)
     (piece_type : piece_type) =
   if start_coord = end_coord then false
   else
     match piece_type with
-    | 'P' -> check_pawn start_coord end_coord board
-    | 'N' -> check_knight start_coord end_coord board
-    | 'B' -> check_bishop start_coord end_coord board
-    | 'K' -> check_king start_coord end_coord board
-    | 'R' -> check_rook start_coord end_coord board
-    | 'Q' -> check_queen start_coord end_coord board
+    | 'P' -> check_pawn start_coord end_coord game
+    | 'N' -> check_knight start_coord end_coord game.board
+    | 'B' -> check_bishop start_coord end_coord game.board
+    | 'K' -> check_king start_coord end_coord game.board
+    | 'R' -> check_rook start_coord end_coord game.board
+    | 'Q' -> check_queen start_coord end_coord game.board
     | _ ->
         failwith
           ("Board invariant violated: non-valid piece-type "
@@ -385,8 +390,7 @@ let check_move
     match piece with
     | Empty -> false
     | Piece piece ->
-        check_piece_rules start_coord end_coord game.board
-          piece.piece_type
+        check_piece_rules start_coord end_coord game piece.piece_type
 
 (**Returns index of element x in list lst. Credit to:
    https://stackoverflow.com/questions/31279920/finding-an-item-in-a-list-and-returning-its-index-ocaml *)

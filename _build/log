@@ -1,10 +1,10 @@
-# dune exec dispDemo/dispDemo.exe
+# dune build dispDemo/
 # OCAMLPARAM: unset
 # Workspace root: /home/caiuuu/3110/3110chess
-$ /usr/bin/nproc > /tmp/dune84e8b3.output 2> /dev/null
+$ /usr/bin/nproc > /tmp/duneefd31b.output 2> /dev/null
 # Auto-detected concurrency: 8
 # disable binary cache
-$ /home/caiuuu/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dunefa5726.output
+$ /home/caiuuu/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dune786324.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -112,4 +112,14 @@ $ /home/caiuuu/.opam/cs3110-2021fa/bin/ocamlc.opt -config > /tmp/dunefa5726.outp
 #      ; windows_unicode = false
 #      }
 #  }
-# Workspace root: /home/caiuuu/3110/3110chess
+$ (cd _build/default && /home/caiuuu/.opam/cs3110-2021fa/bin/ocamlopt.opt -w +a-4-6-7-9-27-29-30-32..42-44-45-48-50-60-66-67 -warn-error -a+31 -g -I src/.chess.objs/byte -I src/.chess.objs/native -intf-suffix .ml -no-alias-deps -opaque -open Chess -o src/.chess.objs/native/chess__Backend.cmx -c -impl src/backend.ml)
+> File "src/backend.ml", line 1:
+> Error: The implementation src/backend.ml
+>        does not match the interface src/.chess.objs/byte/chess__Backend.cmi:
+>        Values do not match:
+>          val get_log : game -> log
+>        is not included in
+>          val get_log : game -> string list
+>        File "src/backend.mli", line 78, characters 0-33: Expected declaration
+>        File "src/backend.ml", line 564, characters 4-11: Actual declaration
+[2]
