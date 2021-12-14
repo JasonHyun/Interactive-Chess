@@ -62,8 +62,7 @@ type move = {
   player : player;
   start_coord : coordinate;
   end_coord : coordinate;
-  piece : piece;
-  time_since_start : time;
+  piece_type : piece_type;
   valid : valid;
   check : check;
   checkmate : checkmate;
@@ -72,13 +71,16 @@ type move = {
 type board = space list list
 (** The board will always be a matrix of pieces 8x8 *)
 
+type log = move list
+
 type game = {
   board : board;
-  white_time : time;
-  black_time : time;
+  log : log;
 }
+
 (** Defines the total state of a game, including board state and time
     left for every player*)
+let empty_board = [ [ Empty ] ]
 
 (** Makes pieces of given types and player. Kinda ugly so refactor
     should be done.*)
@@ -141,14 +143,9 @@ let log_row (row : space list) =
   String.concat " " (List.map Char.escaped chars)
 
 (**Logs the board to the printer.*)
-let log_board (board : board) = List.map log_row board
+let log_board (game : game) = List.map log_row game.board
 
-let init_game =
-  {
-    board = init_board;
-    white_time = player_time;
-    black_time = player_time;
-  }
+let init_game = { board = init_board; log = [] }
 (*Initializes the board to the correct opening state, sets players' time
   as well *)
 
@@ -240,14 +237,13 @@ let check_pawn
      || end_coord.row - start_coord.row = dir * 2
         && ((dir = -1 && start_coord.row = 6)
            || (dir = 1 && start_coord.row = 1)))
-  && space_check end_coord board = ' '
   || dx = 1
      && end_coord.row - start_coord.row = dir * 1
      && path_clear end_coord end_coord board (0, 0)
           (get_type_space start_coord board)
+
 (*checks using pawn rules to see if move is valid TODO: Pawn attacks en
   pass*)
-
 let check_knight
     (start_coord : board_coord)
     (end_coord : board_coord)
@@ -270,6 +266,7 @@ let check_bishop
        (incr_coord start_coord incr)
        end_coord board incr
        (get_type_space start_coord board)
+
 (*checks using bishop rules to see if move is valid*)
 
 let check_king
@@ -293,6 +290,7 @@ let check_rook
        (incr_coord start_coord incr)
        end_coord board incr
        (get_type_space start_coord board)
+
 (*TODO checks using rook rules to see if move is valid*)
 
 let check_queen
@@ -335,11 +333,22 @@ let set_board (board : board) (space : space) (coord : board_coord) =
 let make_move
     (start_coord : board_coord)
     (end_coord : board_coord)
-    (board : board) =
-  let s_space = get_space_at_coord start_coord board in
+    (game : game) =
+  let s_space = get_space_at_coord start_coord game.board in
   let s_piece = get_piece_from_space s_space in
-  let moved_board = set_board board (Piece s_piece) end_coord in
-  set_board moved_board Empty
+  let moved_board = set_board game.board (Piece s_piece) end_coord in
+  let new_move =
+    {
+      player = White;
+      start_coord = { row = 4; column = 'A' };
+      end_coord = { row = 3; column = 'B' };
+      piece_type = space_check start_coord game.board;
+      valid = true;
+      check = true;
+      checkmate = true;
+    }
+  in
+  { board = set_board moved_board Empty; log = new_move :: game.log }
 
 (**Using the rules for the given piece, returns true iff the given move
    is legal. Ignores if move puts you in check*)
@@ -368,15 +377,16 @@ let check_piece_rules
 let check_move
     (start_coord : board_coord)
     (end_coord : board_coord)
-    (board : board) =
+    (game : game) =
   if check_coords_in_bounds [ start_coord; end_coord ] = false then
     failwith "Invalid coordinate"
   else
-    let piece = get_space_at_coord start_coord board in
+    let piece = get_space_at_coord start_coord game.board in
     match piece with
     | Empty -> false
     | Piece piece ->
-        check_piece_rules start_coord end_coord board piece.piece_type
+        check_piece_rules start_coord end_coord game.board
+          piece.piece_type
 
 (**Returns index of element x in list lst. Credit to:
    https://stackoverflow.com/questions/31279920/finding-an-item-in-a-list-and-returning-its-index-ocaml *)
@@ -396,7 +406,7 @@ let find_king_coords (board : board) (player : player) =
 
 (**For each space in matrix returns true iff the piece threatens
    threatened_piece*)
-let mapMatrix (threatened_piece : board_coord) (board : board) =
+let mapMatrix (threatened_piece : board_coord) (game : game) =
   let make_row (curLength : int) =
     let rec rec_make_row
         (curLength : int)
@@ -407,14 +417,14 @@ let mapMatrix (threatened_piece : board_coord) (board : board) =
         (cur_row : bool list) =
       let start_coord = { column = curHeight; row = curLength } in
       let cur_row =
-        cur_row @ [ check_move start_coord end_coord board ]
+        cur_row @ [ check_move start_coord end_coord game ]
       in
       if curHeight < mHeight then
         rec_make_row curLength (curHeight + 1) mHeight end_coord board
           cur_row
       else cur_row
     in
-    rec_make_row curLength 0 8 threatened_piece board []
+    rec_make_row curLength 0 8 threatened_piece game.board []
   in
   let rec rec_make_rows
       (board : board)
@@ -427,7 +437,7 @@ let mapMatrix (threatened_piece : board_coord) (board : board) =
       rec_make_rows board end_coord (cur_length + 1) m_length cur_board
     else cur_board
   in
-  rec_make_rows board threatened_piece 0 8 []
+  rec_make_rows game.board threatened_piece 0 8 []
 
 (**Checks to see if there are any true in the matrix*)
 let check_any_true matrix =
@@ -440,15 +450,14 @@ let get_opposite_color (player : player) =
   | Black -> White
 
 (**Checks if king at given coords is in Check*)
-let check_threatened_piece (piece_coords : board_coord) (board : board)
-    =
-  let mapped_matrix = mapMatrix piece_coords board in
+let check_threatened_piece (piece_coords : board_coord) (game : game) =
+  let mapped_matrix = mapMatrix piece_coords game in
   check_any_true mapped_matrix
 
 (** Returns true iff the given player is in check*)
-let player_in_check (player : player) (board : board) =
-  let king_coords = find_king_coords board player in
-  check_threatened_piece king_coords board
+let player_in_check (player : player) (game : game) =
+  let king_coords = find_king_coords game.board player in
+  check_threatened_piece king_coords game
 
 (**Returns a list of all possible coordinates. Useful helper method for
    many places*)
@@ -463,27 +472,27 @@ let all_possible_coords =
 
 (**Returns all the viable moves for the given piece in the given board
    state*)
-let viable_move_coords (start_coord : board_coord) (board : board) =
+let viable_move_coords (start_coord : board_coord) (game : game) =
   let intermediate_check_move
       (board : board)
       (start_coord : board_coord)
       (end_coord : board_coord) =
-    check_move start_coord end_coord board
+    check_move start_coord end_coord game
   in
   List.filter
-    (intermediate_check_move board start_coord)
+    (intermediate_check_move game.board start_coord)
     all_possible_coords
 
 (**Returns true iff the given player is in checkmate on the given board*)
-let player_in_checkmate (player : player) (board : board) =
-  let king_coords = find_king_coords board player in
-  let move_coords = viable_move_coords king_coords board in
+let player_in_checkmate (player : player) (game : game) =
+  let king_coords = find_king_coords game.board player in
+  let move_coords = viable_move_coords king_coords game in
   let altered_order_threatened (board : board) (piece : board_coord) =
-    check_threatened_piece piece board
+    check_threatened_piece piece game
   in
   let viable_moves =
     List.filter
-      (altered_order_threatened board)
+      (altered_order_threatened game.board)
       (move_coords @ [ king_coords ])
   in
   if List.length viable_moves > 0 then false else true
@@ -492,53 +501,65 @@ let player_in_checkmate (player : player) (board : board) =
 let player_in_checkmate (player : player) = 0
 
 let get_check (move : move) = move.check
+
 (*True iff the move puts the opponent in check*)
-
 let get_checkmate (move : move) = move.checkmate
+
 (*True iff the move puts the opponent in checkmate*)
-
 let get_valid (move : move) = move.valid
+
 (*True iff the move is valid*)
-
 let get_owner (move : move) = move.player
+
 (*Gets the owner of the piece used in the given move*)
-
 let get_start (move : move) = move.start_coord
+
 (*Gets the starting coordinate of the given move*)
-
 let get_end (move : move) = move.end_coord
+
 (*Gets the end coordinate of the given move*)
+let get_piece_type (move : move) = move.piece_type
 
-let get_piece_type (move : move) = move.piece.piece_type
-
-let demo_board = log_board init_board
+let demo_board = log_board { board = init_board; log = [] }
 
 let demo start_coord end_coord board =
   check_move start_coord end_coord
-    (if List.length board = 1 then init_board else board)
+    (if List.length board = 1 then { board = init_board; log = [] }
+    else { board; log = [] })
 
 (*Gets the piece used in the given move*)
+let coord_to_string (coordinate : coordinate) = "Placholder"
 
-(** Unimplementable functionality for near future specified by MLI. Many
-    of these fail because of no persistant state*)
-(* let get_legal_moves (coordinate: coordinate)= failwith
-   ("Unimplemented") (*Returns all the positions that the piece at the
-   coordinate can legally move to.*) let get_time_left (player: player)=
-   failwith("Unimplemented") (*Returns the amount of time that the given
-   player has remaining*) let get_piece_owner (coordinate: coordinate) =
-   failwith("Unimplemented") (*Returns the owner of the piece at the
-   given coordinate*)
+let move_to_string (move : move) =
+  let start_coord = coord_to_string move.start_coord in
+  let end_coord = coord_to_string move.end_coord in
+  let piece = move.piece_type in
+  String.make 1 piece ^ " " ^ start_coord ^ " " ^ end_coord
 
-   let make_move (start_coordinate: coordinate) (end_coordinate:
-   coordinate) = failwith("Unimplemented") (*[start_coordinate
-   end_coordinate] takes the given input, creates object of type [move]
-   with given start coordinate, end coordinate*)
+let get_legal_moves (game : game) (coordinate : coordinate) =
+  failwith "Unimplemented"
+(*Returns all the positions that the piece at the coordinate can legally
+  move to.*)
 
-   let get_piece (coordinate: coordinate) = failwith("Unimplemented")
-   (*Returns the type of piece at the given coordinate*) let
-   get_time_since_last_move = failwith("Unimplemented") (*Gets the time
-   elapsed since the last move in seconds*) let get_time_since_start =
-   failwith("Unimplemented") (*Gets the time elapsed from game start to
-   the given move, in seconds*) let get_log =
-   failwith("Unimplemented") *)
+let get_piece_owner (game : game) (coordinate : coordinate) =
+  failwith "Unimplemented"
+(*Returns the owner of the piece at the given coordinate*)
+
+let make_move
+    (game : game)
+    (start_coordinate : coordinate)
+    (end_coordinate : coordinate) =
+  failwith "Unimplemented"
+(*[start_coordinate end_coordinate] takes the given input, creates
+  object of type [move] with given start coordinate, end coordinate*)
+
+let get_piece (game : game) (coordinate : coordinate) =
+  failwith "Unimplemented"
+(*Returns the type of piece at the given coordinate*)
+
+let get_log (game : game) = game.log
+(*Returns a list of all of the moves taken in chronological ordering*)
+
+let player_makes_move (game : game) (move : move) =
+  failwith "Unimplemented"
 (*Returns a list of all of the moves taken in chronological ordering*)
