@@ -62,7 +62,7 @@ type move = {
   player : player;
   start_coord : coordinate;
   end_coord : coordinate;
-  piece : piece;
+  piece_type : piece_type;
   valid : valid;
   check : check;
   checkmate : checkmate;
@@ -333,11 +333,22 @@ let set_board (board : board) (space : space) (coord : board_coord) =
 let make_move
     (start_coord : board_coord)
     (end_coord : board_coord)
-    (board : board) =
-  let s_space = get_space_at_coord start_coord board in
+    (game : game) =
+  let s_space = get_space_at_coord start_coord game.board in
   let s_piece = get_piece_from_space s_space in
-  let moved_board = set_board board (Piece s_piece) end_coord in
-  set_board moved_board Empty
+  let moved_board = set_board game.board (Piece s_piece) end_coord in
+  let new_move =
+    {
+      player = White;
+      start_coord = { row = 4; column = 'A' };
+      end_coord = { row = 3; column = 'B' };
+      piece_type = space_check start_coord game.board;
+      valid = true;
+      check = true;
+      checkmate = true;
+    }
+  in
+  { board = set_board moved_board Empty; log = new_move :: game.log }
 
 (**Using the rules for the given piece, returns true iff the given move
    is legal. Ignores if move puts you in check*)
@@ -507,7 +518,7 @@ let get_start (move : move) = move.start_coord
 let get_end (move : move) = move.end_coord
 
 (*Gets the end coordinate of the given move*)
-let get_piece_type (move : move) = move.piece.piece_type
+let get_piece_type (move : move) = move.piece_type
 
 let demo_board = log_board { board = init_board; log = [] }
 
@@ -517,6 +528,13 @@ let demo start_coord end_coord board =
     else { board; log = [] })
 
 (*Gets the piece used in the given move*)
+let coord_to_string (coordinate : coordinate) = "Placholder"
+
+let move_to_string (move : move) =
+  let start_coord = coord_to_string move.start_coord in
+  let end_coord = coord_to_string move.end_coord in
+  let piece = move.piece_type in
+  String.make 1 piece ^ " " ^ start_coord ^ " " ^ end_coord
 
 let get_legal_moves (game : game) (coordinate : coordinate) =
   failwith "Unimplemented"
@@ -539,7 +557,7 @@ let get_piece (game : game) (coordinate : coordinate) =
   failwith "Unimplemented"
 (*Returns the type of piece at the given coordinate*)
 
-let get_log (game : game) = failwith "Unimplemented"
+let get_log (game : game) = game.log
 (*Returns a list of all of the moves taken in chronological ordering*)
 
 let player_makes_move (game : game) (move : move) =
